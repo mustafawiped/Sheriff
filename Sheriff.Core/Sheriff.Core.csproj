@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework></PropertyGroup>
+  <ItemGroup><EmbeddedResource Include="known_apps.json" LogicalName="Sheriff.Core.known_apps.json" /></ItemGroup>
+</Project>

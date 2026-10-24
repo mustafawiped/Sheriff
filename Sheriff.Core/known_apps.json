@@ -1,0 +1,3628 @@
+[
+  {
+    "name": "Visual Studio Code",
+    "category": "Yazılım",
+    "exeNames": [
+      "Code.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Visual Studio Code Insiders",
+    "category": "Yazılım",
+    "exeNames": [
+      "Code - Insiders.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Visual Studio",
+    "category": "Yazılım",
+    "exeNames": [
+      "devenv.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Cursor",
+    "category": "Yazılım",
+    "exeNames": [
+      "Cursor.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "VSCodium",
+    "category": "Yazılım",
+    "exeNames": [
+      "VSCodium.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Windsurf",
+    "category": "Yazılım",
+    "exeNames": [
+      "Windsurf.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Zed",
+    "category": "Yazılım",
+    "exeNames": [
+      "zed.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Sublime Text",
+    "category": "Yazılım",
+    "exeNames": [
+      "sublime_text.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Notepad++",
+    "category": "Yazılım",
+    "exeNames": [
+      "notepad++.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Notepad2",
+    "category": "Yazılım",
+    "exeNames": [
+      "Notepad2.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Notepad3",
+    "category": "Yazılım",
+    "exeNames": [
+      "Notepad3.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Vim",
+    "category": "Yazılım",
+    "exeNames": [
+      "vim.exe",
+      "gvim.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Neovim",
+    "category": "Yazılım",
+    "exeNames": [
+      "nvim.exe",
+      "nvim-qt.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GNU Emacs",
+    "category": "Yazılım",
+    "exeNames": [
+      "emacs.exe",
+      "runemacs.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Geany",
+    "category": "Yazılım",
+    "exeNames": [
+      "geany.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Kate",
+    "category": "Yazılım",
+    "exeNames": [
+      "kate.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains IntelliJ IDEA",
+    "category": "Yazılım",
+    "exeNames": [
+      "idea64.exe",
+      "idea.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "JetBrains s.r.o."
+    ]
+  },
+  {
+    "name": "JetBrains PyCharm",
+    "category": "Yazılım",
+    "exeNames": [
+      "pycharm64.exe",
+      "pycharm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains WebStorm",
+    "category": "Yazılım",
+    "exeNames": [
+      "webstorm64.exe",
+      "webstorm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains PhpStorm",
+    "category": "Yazılım",
+    "exeNames": [
+      "phpstorm64.exe",
+      "phpstorm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains Rider",
+    "category": "Yazılım",
+    "exeNames": [
+      "rider64.exe",
+      "rider.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains CLion",
+    "category": "Yazılım",
+    "exeNames": [
+      "clion64.exe",
+      "clion.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains GoLand",
+    "category": "Yazılım",
+    "exeNames": [
+      "goland64.exe",
+      "goland.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains RubyMine",
+    "category": "Yazılım",
+    "exeNames": [
+      "rubymine64.exe",
+      "rubymine.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains DataGrip",
+    "category": "Yazılım",
+    "exeNames": [
+      "datagrip64.exe",
+      "datagrip.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains DataSpell",
+    "category": "Yazılım",
+    "exeNames": [
+      "dataspell64.exe",
+      "dataspell.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains RustRover",
+    "category": "Yazılım",
+    "exeNames": [
+      "rustrover64.exe",
+      "rustrover.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains Fleet",
+    "category": "Yazılım",
+    "exeNames": [
+      "fleet.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JetBrains Toolbox",
+    "category": "Yazılım",
+    "exeNames": [
+      "jetbrains-toolbox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Android Studio",
+    "category": "Yazılım",
+    "exeNames": [
+      "studio64.exe",
+      "studio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Eclipse IDE",
+    "category": "Yazılım",
+    "exeNames": [
+      "eclipse.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Apache NetBeans",
+    "category": "Yazılım",
+    "exeNames": [
+      "netbeans64.exe",
+      "netbeans.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Qt Creator",
+    "category": "Yazılım",
+    "exeNames": [
+      "qtcreator.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Code::Blocks",
+    "category": "Yazılım",
+    "exeNames": [
+      "codeblocks.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Dev-C++",
+    "category": "Yazılım",
+    "exeNames": [
+      "devcpp.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Arduino IDE",
+    "category": "Yazılım",
+    "exeNames": [
+      "Arduino IDE.exe",
+      "arduino.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Thonny",
+    "category": "Yazılım",
+    "exeNames": [
+      "thonny.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "RStudio",
+    "category": "Yazılım",
+    "exeNames": [
+      "rstudio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Spyder",
+    "category": "Yazılım",
+    "exeNames": [
+      "spyder.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MATLAB",
+    "category": "Yazılım",
+    "exeNames": [
+      "matlab.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GNU Octave",
+    "category": "Yazılım",
+    "exeNames": [
+      "octave-gui.exe",
+      "octave-cli.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Anaconda Navigator",
+    "category": "Yazılım",
+    "exeNames": [
+      "anaconda-navigator.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Git",
+    "category": "Yazılım",
+    "exeNames": [
+      "git.exe",
+      "git-gui.exe",
+      "git-bash.exe",
+      "git-cmd.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GitHub Desktop",
+    "category": "Yazılım",
+    "exeNames": [
+      "GitHubDesktop.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GitKraken",
+    "category": "Yazılım",
+    "exeNames": [
+      "gitkraken.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Sourcetree",
+    "category": "Yazılım",
+    "exeNames": [
+      "SourceTree.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TortoiseGit",
+    "category": "Yazılım",
+    "exeNames": [
+      "TortoiseGitProc.exe",
+      "TortoiseGitMerge.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TortoiseSVN",
+    "category": "Yazılım",
+    "exeNames": [
+      "TortoiseProc.exe",
+      "TortoiseMerge.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Fork",
+    "category": "Yazılım",
+    "exeNames": [
+      "Fork.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SmartGit",
+    "category": "Yazılım",
+    "exeNames": [
+      "smartgit.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Git Extensions",
+    "category": "Yazılım",
+    "exeNames": [
+      "GitExtensions.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GitAhead",
+    "category": "Yazılım",
+    "exeNames": [
+      "GitAhead.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Windows Terminal",
+    "category": "Yazılım",
+    "exeNames": [
+      "WindowsTerminal.exe",
+      "wt.exe"
+    ],
+    "aumids": [
+      "Microsoft.WindowsTerminal_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Windows Terminal Preview",
+    "category": "Yazılım",
+    "exeNames": [],
+    "aumids": [
+      "Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "PowerShell",
+    "category": "Yazılım",
+    "exeNames": [
+      "pwsh.exe",
+      "powershell.exe",
+      "powershell_ise.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Command Prompt",
+    "category": "Yazılım",
+    "exeNames": [
+      "cmd.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "PuTTY",
+    "category": "Yazılım",
+    "exeNames": [
+      "putty.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "KiTTY",
+    "category": "Yazılım",
+    "exeNames": [
+      "kitty.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MobaXterm",
+    "category": "Yazılım",
+    "exeNames": [
+      "MobaXterm.exe",
+      "MobaXterm_Personal.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Tabby",
+    "category": "Yazılım",
+    "exeNames": [
+      "Tabby.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WezTerm",
+    "category": "Yazılım",
+    "exeNames": [
+      "wezterm-gui.exe",
+      "wezterm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Alacritty",
+    "category": "Yazılım",
+    "exeNames": [
+      "alacritty.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ConEmu",
+    "category": "Yazılım",
+    "exeNames": [
+      "ConEmu.exe",
+      "ConEmu64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Cmder",
+    "category": "Yazılım",
+    "exeNames": [
+      "Cmder.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Termius",
+    "category": "Yazılım",
+    "exeNames": [
+      "Termius.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Windows Subsystem for Linux",
+    "category": "Yazılım",
+    "exeNames": [
+      "wsl.exe",
+      "ubuntu.exe",
+      "debian.exe",
+      "kali.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Postman",
+    "category": "Yazılım",
+    "exeNames": [
+      "Postman.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Insomnia",
+    "category": "Yazılım",
+    "exeNames": [
+      "Insomnia.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Bruno",
+    "category": "Yazılım",
+    "exeNames": [
+      "Bruno.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HTTP Toolkit",
+    "category": "Yazılım",
+    "exeNames": [
+      "HTTP Toolkit.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Fiddler Classic",
+    "category": "Yazılım",
+    "exeNames": [
+      "Fiddler.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Fiddler Everywhere",
+    "category": "Yazılım",
+    "exeNames": [
+      "Fiddler Everywhere.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Charles Proxy",
+    "category": "Yazılım",
+    "exeNames": [
+      "Charles.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Wireshark",
+    "category": "Yazılım",
+    "exeNames": [
+      "Wireshark.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "DBeaver",
+    "category": "Yazılım",
+    "exeNames": [
+      "dbeaver.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HeidiSQL",
+    "category": "Yazılım",
+    "exeNames": [
+      "heidisql.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "DB Browser for SQLite",
+    "category": "Yazılım",
+    "exeNames": [
+      "DB Browser for SQLite.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SQLiteStudio",
+    "category": "Yazılım",
+    "exeNames": [
+      "SQLiteStudio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MySQL Workbench",
+    "category": "Yazılım",
+    "exeNames": [
+      "MySQLWorkbench.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "pgAdmin",
+    "category": "Yazılım",
+    "exeNames": [
+      "pgAdmin4.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MongoDB Compass",
+    "category": "Yazılım",
+    "exeNames": [
+      "MongoDBCompass.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "RedisInsight",
+    "category": "Yazılım",
+    "exeNames": [
+      "RedisInsight.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Azure Data Studio",
+    "category": "Yazılım",
+    "exeNames": [
+      "azuredatastudio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SQL Server Management Studio",
+    "category": "Yazılım",
+    "exeNames": [
+      "Ssms.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TablePlus",
+    "category": "Yazılım",
+    "exeNames": [
+      "TablePlus.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Beekeeper Studio",
+    "category": "Yazılım",
+    "exeNames": [
+      "Beekeeper Studio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Navicat",
+    "category": "Yazılım",
+    "exeNames": [
+      "navicat.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Robo 3T",
+    "category": "Yazılım",
+    "exeNames": [
+      "robo3t.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Studio 3T",
+    "category": "Yazılım",
+    "exeNames": [
+      "Studio 3T.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WinSCP",
+    "category": "Yazılım",
+    "exeNames": [
+      "WinSCP.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "FileZilla",
+    "category": "Yazılım",
+    "exeNames": [
+      "filezilla.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Cyberduck",
+    "category": "Yazılım",
+    "exeNames": [
+      "Cyberduck.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WinMerge",
+    "category": "Yazılım",
+    "exeNames": [
+      "WinMergeU.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Beyond Compare",
+    "category": "Yazılım",
+    "exeNames": [
+      "BCompare.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Meld",
+    "category": "Yazılım",
+    "exeNames": [
+      "Meld.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HxD",
+    "category": "Yazılım",
+    "exeNames": [
+      "HxD.exe",
+      "HxD64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ImHex",
+    "category": "Yazılım",
+    "exeNames": [
+      "imhex.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "010 Editor",
+    "category": "Yazılım",
+    "exeNames": [
+      "010Editor.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Process Monitor",
+    "category": "Yazılım",
+    "exeNames": [
+      "Procmon.exe",
+      "Procmon64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Process Explorer",
+    "category": "Yazılım",
+    "exeNames": [
+      "procexp.exe",
+      "procexp64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ILSpy",
+    "category": "Yazılım",
+    "exeNames": [
+      "ILSpy.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "dnSpy",
+    "category": "Yazılım",
+    "exeNames": [
+      "dnSpy.exe",
+      "dnSpy-x86.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "dotPeek",
+    "category": "Yazılım",
+    "exeNames": [
+      "dotPeek64.exe",
+      "dotPeek32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "x64dbg",
+    "category": "Yazılım",
+    "exeNames": [
+      "x64dbg.exe",
+      "x32dbg.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Ghidra",
+    "category": "Yazılım",
+    "exeNames": [
+      "ghidraRun.bat"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "IDA",
+    "category": "Yazılım",
+    "exeNames": [
+      "ida.exe",
+      "ida64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Python",
+    "category": "Yazılım",
+    "exeNames": [
+      "python.exe",
+      "pythonw.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Node.js",
+    "category": "Yazılım",
+    "exeNames": [
+      "node.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Ruby",
+    "category": "Yazılım",
+    "exeNames": [
+      "ruby.exe",
+      "irb.bat"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "R",
+    "category": "Yazılım",
+    "exeNames": [
+      "Rgui.exe",
+      "Rterm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OpenJDK JShell",
+    "category": "Yazılım",
+    "exeNames": [
+      "jshell.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Rust",
+    "category": "Yazılım",
+    "exeNames": [
+      "rustup.exe",
+      "cargo.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Go",
+    "category": "Yazılım",
+    "exeNames": [
+      "go.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "LLVM",
+    "category": "Yazılım",
+    "exeNames": [
+      "clang.exe",
+      "clang++.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CMake",
+    "category": "Yazılım",
+    "exeNames": [
+      "cmake-gui.exe",
+      "cmake.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MSYS2",
+    "category": "Yazılım",
+    "exeNames": [
+      "msys2.exe",
+      "ucrt64.exe",
+      "mingw64.exe",
+      "clang64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "AutoHotkey",
+    "category": "Yazılım",
+    "exeNames": [
+      "AutoHotkey.exe",
+      "AutoHotkey64.exe",
+      "AutoHotkeyU64.exe",
+      "AutoHotkeyUX.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "AutoIt",
+    "category": "Yazılım",
+    "exeNames": [
+      "AutoIt3.exe",
+      "SciTE.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Godot Engine",
+    "category": "Yazılım",
+    "exeNames": [
+      "Godot.exe",
+      "Godot_v4.3-stable_win64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Unity Hub",
+    "category": "Yazılım",
+    "exeNames": [
+      "Unity Hub.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Unity Editor",
+    "category": "Yazılım",
+    "exeNames": [
+      "Unity.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Unreal Editor",
+    "category": "Yazılım",
+    "exeNames": [
+      "UnrealEditor.exe",
+      "UE4Editor.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GameMaker",
+    "category": "Yazılım",
+    "exeNames": [
+      "GameMaker.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "RPG Maker MZ",
+    "category": "Yazılım",
+    "exeNames": [
+      "RPGMZ.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NVIDIA App",
+    "category": "Donanım",
+    "exeNames": [
+      "NVIDIA app.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "NVIDIA Corporation"
+    ]
+  },
+  {
+    "name": "NVIDIA GeForce Experience",
+    "category": "Donanım",
+    "exeNames": [
+      "NVIDIA GeForce Experience.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NVIDIA Control Panel",
+    "category": "Donanım",
+    "exeNames": [
+      "nvcplui.exe"
+    ],
+    "aumids": [
+      "NVIDIACorp.NVIDIAControlPanel_56jybvy8sckqj!NVIDIACorp.NVIDIAControlPanel"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "AMD Software Adrenalin",
+    "category": "Donanım",
+    "exeNames": [
+      "RadeonSoftware.exe",
+      "RadeonSettings.exe",
+      "AMDSoftware.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Advanced Micro Devices, Inc."
+    ]
+  },
+  {
+    "name": "AMD Ryzen Master",
+    "category": "Donanım",
+    "exeNames": [
+      "AMD Ryzen Master.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Intel Driver and Support Assistant",
+    "category": "Donanım",
+    "exeNames": [
+      "DSATray.exe",
+      "DSAServiceHelper.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Intel Corporation"
+    ]
+  },
+  {
+    "name": "Intel Graphics Command Center",
+    "category": "Donanım",
+    "exeNames": [
+      "IGCC.exe"
+    ],
+    "aumids": [
+      "AppUp.IntelGraphicsExperience_8j3eq9eme6ctt!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Intel Arc Control",
+    "category": "Donanım",
+    "exeNames": [
+      "ArcControl.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Intel Extreme Tuning Utility",
+    "category": "Donanım",
+    "exeNames": [
+      "IntelXTU.exe",
+      "XtuUI.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Logitech G HUB",
+    "category": "Donanım",
+    "exeNames": [
+      "lghub.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Logitech"
+    ]
+  },
+  {
+    "name": "Logitech Options+",
+    "category": "Donanım",
+    "exeNames": [
+      "logioptionsplus.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Logitech Options",
+    "category": "Donanım",
+    "exeNames": [
+      "LogiOptions.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Logitech Gaming Software",
+    "category": "Donanım",
+    "exeNames": [
+      "LCore.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HyperX NGENUITY",
+    "category": "Donanım",
+    "exeNames": [
+      "HyperX NGENUITY.exe",
+      "NGenuity.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "HyperX"
+    ]
+  },
+  {
+    "name": "Razer Synapse",
+    "category": "Donanım",
+    "exeNames": [
+      "Razer Synapse 3.exe",
+      "RazerSynapse.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Razer Cortex",
+    "category": "Donanım",
+    "exeNames": [
+      "RazerCortex.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Corsair iCUE",
+    "category": "Donanım",
+    "exeNames": [
+      "iCUE.exe",
+      "Corsair.Service.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SteelSeries GG",
+    "category": "Donanım",
+    "exeNames": [
+      "SteelSeriesGG.exe",
+      "SteelSeriesEngine.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ASUS Armoury Crate",
+    "category": "Donanım",
+    "exeNames": [
+      "ArmouryCrate.exe",
+      "ArmouryCrate.UserSessionHelper.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ASUS GPU Tweak III",
+    "category": "Donanım",
+    "exeNames": [
+      "GPUTweakIII.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MSI Center",
+    "category": "Donanım",
+    "exeNames": [
+      "MSI.CentralServer.exe",
+      "MSI Center.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MSI Afterburner",
+    "category": "Donanım",
+    "exeNames": [
+      "MSIAfterburner.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "EVGA Precision X1",
+    "category": "Donanım",
+    "exeNames": [
+      "PrecisionX_x64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Gigabyte Control Center",
+    "category": "Donanım",
+    "exeNames": [
+      "GCC.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Gigabyte RGB Fusion",
+    "category": "Donanım",
+    "exeNames": [
+      "RGBFusion.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ASRock Polychrome RGB",
+    "category": "Donanım",
+    "exeNames": [
+      "AsrPolychromeRGB.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NZXT CAM",
+    "category": "Donanım",
+    "exeNames": [
+      "NZXT CAM.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SignalRGB",
+    "category": "Donanım",
+    "exeNames": [
+      "SignalRgb.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OpenRGB",
+    "category": "Donanım",
+    "exeNames": [
+      "OpenRGB.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Fan Control",
+    "category": "Donanım",
+    "exeNames": [
+      "FanControl.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HWiNFO",
+    "category": "Donanım",
+    "exeNames": [
+      "HWiNFO64.exe",
+      "HWiNFO32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HWMonitor",
+    "category": "Donanım",
+    "exeNames": [
+      "HWMonitor.exe",
+      "HWMonitor_x64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CPU-Z",
+    "category": "Donanım",
+    "exeNames": [
+      "cpuz.exe",
+      "cpuz_x64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GPU-Z",
+    "category": "Donanım",
+    "exeNames": [
+      "GPU-Z.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "AIDA64",
+    "category": "Donanım",
+    "exeNames": [
+      "aida64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Speccy",
+    "category": "Donanım",
+    "exeNames": [
+      "Speccy.exe",
+      "Speccy64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Core Temp",
+    "category": "Donanım",
+    "exeNames": [
+      "Core Temp.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CrystalDiskInfo",
+    "category": "Donanım",
+    "exeNames": [
+      "DiskInfo64.exe",
+      "DiskInfo32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CrystalDiskMark",
+    "category": "Donanım",
+    "exeNames": [
+      "DiskMark64.exe",
+      "DiskMark32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Samsung Magician",
+    "category": "Donanım",
+    "exeNames": [
+      "SamsungMagician.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Kingston SSD Manager",
+    "category": "Donanım",
+    "exeNames": [
+      "KSM.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Crucial Storage Executive",
+    "category": "Donanım",
+    "exeNames": [
+      "StorageExecutiveClient.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Seagate SeaTools",
+    "category": "Donanım",
+    "exeNames": [
+      "SeaTools.exe",
+      "SeaToolsforWindows.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Brother iPrint and Scan",
+    "category": "Donanım",
+    "exeNames": [
+      "iPrintScan.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Epson Scan 2",
+    "category": "Donanım",
+    "exeNames": [
+      "Epson Scan 2.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Wacom Center",
+    "category": "Donanım",
+    "exeNames": [
+      "WacomCenter.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Elgato Stream Deck",
+    "category": "Donanım",
+    "exeNames": [
+      "StreamDeck.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Elgato Wave Link",
+    "category": "Donanım",
+    "exeNames": [
+      "WaveLink.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Elgato Camera Hub",
+    "category": "Donanım",
+    "exeNames": [
+      "CameraHub.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Voicemeeter",
+    "category": "Donanım",
+    "exeNames": [
+      "voicemeeter.exe",
+      "voicemeeterpro.exe",
+      "voicemeeter8.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Spotify",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Spotify.exe"
+    ],
+    "aumids": [
+      "SpotifyAB.SpotifyMusic_zpdnekdrzrea0!Spotify"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "WhatsApp",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "WhatsApp.exe"
+    ],
+    "aumids": [
+      "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Discord",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Discord.exe",
+      "DiscordCanary.exe",
+      "DiscordPTB.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Discord Inc."
+    ]
+  },
+  {
+    "name": "Telegram",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Telegram.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Telegram FZ-LLC"
+    ]
+  },
+  {
+    "name": "Signal",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Signal.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Slack",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "slack.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Teams",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "ms-teams.exe",
+      "Teams.exe"
+    ],
+    "aumids": [
+      "MSTeams_8wekyb3d8bbwe!MSTeams"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Zoom",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Zoom.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Skype",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Skype.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Viber",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Viber.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "LINE",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "LINE.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WeChat",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "WeChat.exe",
+      "Weixin.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Tencent QQ",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "QQ.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Element",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Element.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Mattermost",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Mattermost.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Rocket.Chat",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Rocket.Chat.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Guilded",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Guilded.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TeamSpeak",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "ts3client_win64.exe",
+      "ts3client_win32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Mumble",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "mumble.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Revolt",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Revolt.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Beeper",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Beeper.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Session",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Session.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Jitsi Meet",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "Jitsi Meet.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TIDAL",
+    "category": "Sosyal Medya",
+    "exeNames": [
+      "TIDAL.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Steam",
+    "category": "Oyun",
+    "exeNames": [
+      "steam.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Valve Corporation"
+    ]
+  },
+  {
+    "name": "Epic Games Launcher",
+    "category": "Oyun",
+    "exeNames": [
+      "EpicGamesLauncher.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Epic Games, Inc."
+    ]
+  },
+  {
+    "name": "Riot Client",
+    "category": "Oyun",
+    "exeNames": [
+      "RiotClientServices.exe",
+      "RiotClientUx.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Riot Games, Inc."
+    ]
+  },
+  {
+    "name": "Battle.net",
+    "category": "Oyun",
+    "exeNames": [
+      "Battle.net.exe"
+    ],
+    "aumids": [],
+    "publishers": [
+      "Blizzard Entertainment"
+    ]
+  },
+  {
+    "name": "EA App",
+    "category": "Oyun",
+    "exeNames": [
+      "EADesktop.exe",
+      "EALauncher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Ubisoft Connect",
+    "category": "Oyun",
+    "exeNames": [
+      "UbisoftConnect.exe",
+      "upc.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GOG Galaxy",
+    "category": "Oyun",
+    "exeNames": [
+      "GalaxyClient.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Rockstar Games Launcher",
+    "category": "Oyun",
+    "exeNames": [
+      "LauncherPatcher.exe",
+      "RockstarService.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Xbox",
+    "category": "Oyun",
+    "exeNames": [
+      "XboxPcApp.exe"
+    ],
+    "aumids": [
+      "Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Minecraft Launcher",
+    "category": "Oyun",
+    "exeNames": [
+      "MinecraftLauncher.exe"
+    ],
+    "aumids": [
+      "Microsoft.4297127D64EC6_8wekyb3d8bbwe!Minecraft"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Prism Launcher",
+    "category": "Oyun",
+    "exeNames": [
+      "prismlauncher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MultiMC",
+    "category": "Oyun",
+    "exeNames": [
+      "MultiMC.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Modrinth",
+    "category": "Oyun",
+    "exeNames": [
+      "Modrinth App.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CurseForge",
+    "category": "Oyun",
+    "exeNames": [
+      "CurseForge.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Overwolf",
+    "category": "Oyun",
+    "exeNames": [
+      "Overwolf.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Playnite",
+    "category": "Oyun",
+    "exeNames": [
+      "Playnite.DesktopApp.exe",
+      "Playnite.FullscreenApp.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Heroic Games Launcher",
+    "category": "Oyun",
+    "exeNames": [
+      "Heroic.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "itch",
+    "category": "Oyun",
+    "exeNames": [
+      "itch.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Roblox",
+    "category": "Oyun",
+    "exeNames": [
+      "RobloxPlayerBeta.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "League of Legends",
+    "category": "Oyun",
+    "exeNames": [
+      "LeagueClient.exe",
+      "League of Legends.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "VALORANT",
+    "category": "Oyun",
+    "exeNames": [
+      "VALORANT.exe",
+      "VALORANT-Win64-Shipping.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Fortnite",
+    "category": "Oyun",
+    "exeNames": [
+      "FortniteClient-Win64-Shipping.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Counter-Strike 2",
+    "category": "Oyun",
+    "exeNames": [
+      "cs2.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Dota 2",
+    "category": "Oyun",
+    "exeNames": [
+      "dota2.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Apex Legends",
+    "category": "Oyun",
+    "exeNames": [
+      "r5apex.exe",
+      "r5apex_dx12.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Overwatch",
+    "category": "Oyun",
+    "exeNames": [
+      "Overwatch.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "World of Warcraft",
+    "category": "Oyun",
+    "exeNames": [
+      "Wow.exe",
+      "WowClassic.exe",
+      "WowClassicT.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Hearthstone",
+    "category": "Oyun",
+    "exeNames": [
+      "Hearthstone.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Diablo IV",
+    "category": "Oyun",
+    "exeNames": [
+      "Diablo IV.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Path of Exile",
+    "category": "Oyun",
+    "exeNames": [
+      "PathOfExile.exe",
+      "PathOfExile_x64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Baldur's Gate 3",
+    "category": "Oyun",
+    "exeNames": [
+      "bg3.exe",
+      "bg3_dx11.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Cyberpunk 2077",
+    "category": "Oyun",
+    "exeNames": [
+      "Cyberpunk2077.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "The Witcher 3",
+    "category": "Oyun",
+    "exeNames": [
+      "witcher3.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Elden Ring",
+    "category": "Oyun",
+    "exeNames": [
+      "eldenring.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Stardew Valley",
+    "category": "Oyun",
+    "exeNames": [
+      "Stardew Valley.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Terraria",
+    "category": "Oyun",
+    "exeNames": [
+      "Terraria.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Hades",
+    "category": "Oyun",
+    "exeNames": [
+      "Hades.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Hollow Knight",
+    "category": "Oyun",
+    "exeNames": [
+      "hollow_knight.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Factorio",
+    "category": "Oyun",
+    "exeNames": [
+      "factorio.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Satisfactory",
+    "category": "Oyun",
+    "exeNames": [
+      "FactoryGame.exe",
+      "FactoryGame-Win64-Shipping.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Docker Desktop",
+    "category": "Sunucu",
+    "exeNames": [
+      "Docker Desktop.exe",
+      "DockerCli.exe",
+      "docker.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Podman Desktop",
+    "category": "Sunucu",
+    "exeNames": [
+      "Podman Desktop.exe",
+      "podman.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Rancher Desktop",
+    "category": "Sunucu",
+    "exeNames": [
+      "Rancher Desktop.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Lens",
+    "category": "Sunucu",
+    "exeNames": [
+      "Lens.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OpenLens",
+    "category": "Sunucu",
+    "exeNames": [
+      "OpenLens.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Kubernetes kubectl",
+    "category": "Sunucu",
+    "exeNames": [
+      "kubectl.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Minikube",
+    "category": "Sunucu",
+    "exeNames": [
+      "minikube.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "k9s",
+    "category": "Sunucu",
+    "exeNames": [
+      "k9s.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Portainer",
+    "category": "Sunucu",
+    "exeNames": [
+      "portainer.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Apache HTTP Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "httpd.exe",
+      "ApacheMonitor.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NGINX",
+    "category": "Sunucu",
+    "exeNames": [
+      "nginx.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Caddy",
+    "category": "Sunucu",
+    "exeNames": [
+      "caddy.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "XAMPP",
+    "category": "Sunucu",
+    "exeNames": [
+      "xampp-control.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WampServer",
+    "category": "Sunucu",
+    "exeNames": [
+      "wampmanager.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Laragon",
+    "category": "Sunucu",
+    "exeNames": [
+      "laragon.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "IIS Manager",
+    "category": "Sunucu",
+    "exeNames": [
+      "InetMgr.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SQL Server Configuration Manager",
+    "category": "Sunucu",
+    "exeNames": [
+      "SQLServerManager16.msc",
+      "SQLServerManager15.msc"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MySQL Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "mysqld.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "PostgreSQL Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "postgres.exe",
+      "pg_ctl.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MongoDB Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "mongod.exe",
+      "mongos.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Redis Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "redis-server.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Memcached",
+    "category": "Sunucu",
+    "exeNames": [
+      "memcached.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "VirtualBox",
+    "category": "Sunucu",
+    "exeNames": [
+      "VirtualBox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "VMware Workstation",
+    "category": "Sunucu",
+    "exeNames": [
+      "vmware.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Hyper-V Manager",
+    "category": "Sunucu",
+    "exeNames": [
+      "virtmgmt.msc"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Remote Desktop Connection",
+    "category": "Sunucu",
+    "exeNames": [
+      "mstsc.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "mRemoteNG",
+    "category": "Sunucu",
+    "exeNames": [
+      "mRemoteNG.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Royal TS",
+    "category": "Sunucu",
+    "exeNames": [
+      "RoyalTS.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MobaSSH",
+    "category": "Sunucu",
+    "exeNames": [
+      "MobaSSH.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "FileZilla Server",
+    "category": "Sunucu",
+    "exeNames": [
+      "filezilla-server.exe",
+      "filezilla-server-gui.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Google Chrome",
+    "category": "Diğer",
+    "exeNames": [
+      "chrome.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Edge",
+    "category": "Diğer",
+    "exeNames": [
+      "msedge.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Mozilla Firefox",
+    "category": "Diğer",
+    "exeNames": [
+      "firefox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Brave",
+    "category": "Diğer",
+    "exeNames": [
+      "brave.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Opera",
+    "category": "Diğer",
+    "exeNames": [
+      "opera.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Vivaldi",
+    "category": "Diğer",
+    "exeNames": [
+      "vivaldi.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Tor Browser",
+    "category": "Diğer",
+    "exeNames": [
+      "tor.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "LibreWolf",
+    "category": "Diğer",
+    "exeNames": [
+      "librewolf.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Waterfox",
+    "category": "Diğer",
+    "exeNames": [
+      "waterfox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Thunderbird",
+    "category": "Diğer",
+    "exeNames": [
+      "thunderbird.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Outlook",
+    "category": "Diğer",
+    "exeNames": [
+      "OUTLOOK.EXE"
+    ],
+    "aumids": [
+      "Microsoft.OutlookForWindows_8wekyb3d8bbwe!Microsoft.OutlookforWindows"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Word",
+    "category": "Diğer",
+    "exeNames": [
+      "WINWORD.EXE"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Excel",
+    "category": "Diğer",
+    "exeNames": [
+      "EXCEL.EXE"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft PowerPoint",
+    "category": "Diğer",
+    "exeNames": [
+      "POWERPNT.EXE"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft OneNote",
+    "category": "Diğer",
+    "exeNames": [
+      "ONENOTE.EXE"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "LibreOffice",
+    "category": "Diğer",
+    "exeNames": [
+      "soffice.exe",
+      "swriter.exe",
+      "scalc.exe",
+      "simpress.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OnlyOffice Desktop Editors",
+    "category": "Diğer",
+    "exeNames": [
+      "DesktopEditors.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WPS Office",
+    "category": "Diğer",
+    "exeNames": [
+      "wps.exe",
+      "et.exe",
+      "wpp.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Notion",
+    "category": "Diğer",
+    "exeNames": [
+      "Notion.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Obsidian",
+    "category": "Diğer",
+    "exeNames": [
+      "Obsidian.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Joplin",
+    "category": "Diğer",
+    "exeNames": [
+      "Joplin.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Evernote",
+    "category": "Diğer",
+    "exeNames": [
+      "Evernote.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Logseq",
+    "category": "Diğer",
+    "exeNames": [
+      "Logseq.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Todoist",
+    "category": "Diğer",
+    "exeNames": [
+      "Todoist.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TickTick",
+    "category": "Diğer",
+    "exeNames": [
+      "TickTick.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft To Do",
+    "category": "Diğer",
+    "exeNames": [
+      "ToDo.exe"
+    ],
+    "aumids": [
+      "Microsoft.Todos_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Adobe Acrobat Reader",
+    "category": "Diğer",
+    "exeNames": [
+      "AcroRd32.exe",
+      "Acrobat.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Foxit PDF Reader",
+    "category": "Diğer",
+    "exeNames": [
+      "FoxitPDFReader.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SumatraPDF",
+    "category": "Diğer",
+    "exeNames": [
+      "SumatraPDF.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "PDF-XChange Editor",
+    "category": "Diğer",
+    "exeNames": [
+      "PDFXEdit.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "7-Zip",
+    "category": "Diğer",
+    "exeNames": [
+      "7zFM.exe",
+      "7zG.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WinRAR",
+    "category": "Diğer",
+    "exeNames": [
+      "WinRAR.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "PeaZip",
+    "category": "Diğer",
+    "exeNames": [
+      "peazip.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NanaZip",
+    "category": "Diğer",
+    "exeNames": [
+      "NanaZip.exe",
+      "NanaZip.Modern.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "VLC media player",
+    "category": "Diğer",
+    "exeNames": [
+      "vlc.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "mpv",
+    "category": "Diğer",
+    "exeNames": [
+      "mpv.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MPC-HC",
+    "category": "Diğer",
+    "exeNames": [
+      "mpc-hc.exe",
+      "mpc-hc64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MPC-BE",
+    "category": "Diğer",
+    "exeNames": [
+      "mpc-be.exe",
+      "mpc-be64.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "foobar2000",
+    "category": "Diğer",
+    "exeNames": [
+      "foobar2000.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MusicBee",
+    "category": "Diğer",
+    "exeNames": [
+      "MusicBee.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "AIMP",
+    "category": "Diğer",
+    "exeNames": [
+      "AIMP.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Audacity",
+    "category": "Diğer",
+    "exeNames": [
+      "audacity.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OBS Studio",
+    "category": "Diğer",
+    "exeNames": [
+      "obs64.exe",
+      "obs32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Streamlabs Desktop",
+    "category": "Diğer",
+    "exeNames": [
+      "Streamlabs Desktop.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "HandBrake",
+    "category": "Diğer",
+    "exeNames": [
+      "HandBrake.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Shotcut",
+    "category": "Diğer",
+    "exeNames": [
+      "shotcut.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Kdenlive",
+    "category": "Diğer",
+    "exeNames": [
+      "kdenlive.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "DaVinci Resolve",
+    "category": "Diğer",
+    "exeNames": [
+      "Resolve.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Adobe Premiere Pro",
+    "category": "Diğer",
+    "exeNames": [
+      "Adobe Premiere Pro.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Adobe After Effects",
+    "category": "Diğer",
+    "exeNames": [
+      "AfterFX.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Adobe Photoshop",
+    "category": "Diğer",
+    "exeNames": [
+      "Photoshop.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Adobe Illustrator",
+    "category": "Diğer",
+    "exeNames": [
+      "Illustrator.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Adobe InDesign",
+    "category": "Diğer",
+    "exeNames": [
+      "InDesign.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Affinity Photo",
+    "category": "Diğer",
+    "exeNames": [
+      "Photo.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Affinity Designer",
+    "category": "Diğer",
+    "exeNames": [
+      "Designer.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Affinity Publisher",
+    "category": "Diğer",
+    "exeNames": [
+      "Publisher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "GIMP",
+    "category": "Diğer",
+    "exeNames": [
+      "gimp-2.10.exe",
+      "gimp-3.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Krita",
+    "category": "Diğer",
+    "exeNames": [
+      "krita.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Inkscape",
+    "category": "Diğer",
+    "exeNames": [
+      "inkscape.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Blender",
+    "category": "Diğer",
+    "exeNames": [
+      "blender.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Figma",
+    "category": "Diğer",
+    "exeNames": [
+      "Figma.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Canva",
+    "category": "Diğer",
+    "exeNames": [
+      "Canva.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Paint.NET",
+    "category": "Diğer",
+    "exeNames": [
+      "paintdotnet.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "IrfanView",
+    "category": "Diğer",
+    "exeNames": [
+      "i_view64.exe",
+      "i_view32.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "XnView MP",
+    "category": "Diğer",
+    "exeNames": [
+      "xnviewmp.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ShareX",
+    "category": "Diğer",
+    "exeNames": [
+      "ShareX.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Greenshot",
+    "category": "Diğer",
+    "exeNames": [
+      "Greenshot.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Lightshot",
+    "category": "Diğer",
+    "exeNames": [
+      "Lightshot.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Flameshot",
+    "category": "Diğer",
+    "exeNames": [
+      "flameshot.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Everything",
+    "category": "Diğer",
+    "exeNames": [
+      "Everything.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Listary",
+    "category": "Diğer",
+    "exeNames": [
+      "Listary.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "PowerToys",
+    "category": "Diğer",
+    "exeNames": [
+      "PowerToys.exe",
+      "PowerToys.Settings.exe",
+      "PowerToys.PowerLauncher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Flow Launcher",
+    "category": "Diğer",
+    "exeNames": [
+      "Flow.Launcher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Wox",
+    "category": "Diğer",
+    "exeNames": [
+      "Wox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Ditto",
+    "category": "Diğer",
+    "exeNames": [
+      "Ditto.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "CopyQ",
+    "category": "Diğer",
+    "exeNames": [
+      "copyq.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "KeePass",
+    "category": "Diğer",
+    "exeNames": [
+      "KeePass.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "KeePassXC",
+    "category": "Diğer",
+    "exeNames": [
+      "KeePassXC.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Bitwarden",
+    "category": "Diğer",
+    "exeNames": [
+      "Bitwarden.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "1Password",
+    "category": "Diğer",
+    "exeNames": [
+      "1Password.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Proton Pass",
+    "category": "Diğer",
+    "exeNames": [
+      "Proton Pass.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Enpass",
+    "category": "Diğer",
+    "exeNames": [
+      "Enpass.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "qBittorrent",
+    "category": "Diğer",
+    "exeNames": [
+      "qbittorrent.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Transmission",
+    "category": "Diğer",
+    "exeNames": [
+      "transmission-qt.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Deluge",
+    "category": "Diğer",
+    "exeNames": [
+      "deluge.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Free Download Manager",
+    "category": "Diğer",
+    "exeNames": [
+      "fdm.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "JDownloader",
+    "category": "Diğer",
+    "exeNames": [
+      "JDownloader2.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Internet Download Manager",
+    "category": "Diğer",
+    "exeNames": [
+      "IDMan.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Syncthing",
+    "category": "Diğer",
+    "exeNames": [
+      "syncthing.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "FreeFileSync",
+    "category": "Diğer",
+    "exeNames": [
+      "FreeFileSync.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "SyncBackFree",
+    "category": "Diğer",
+    "exeNames": [
+      "SyncBackFree.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Duplicati",
+    "category": "Diğer",
+    "exeNames": [
+      "Duplicati.GUI.TrayIcon.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Restic",
+    "category": "Diğer",
+    "exeNames": [
+      "restic.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Rclone",
+    "category": "Diğer",
+    "exeNames": [
+      "rclone.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OneDrive",
+    "category": "Diğer",
+    "exeNames": [
+      "OneDrive.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Dropbox",
+    "category": "Diğer",
+    "exeNames": [
+      "Dropbox.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Google Drive",
+    "category": "Diğer",
+    "exeNames": [
+      "GoogleDriveFS.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "MEGAsync",
+    "category": "Diğer",
+    "exeNames": [
+      "MEGAsync.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Nextcloud",
+    "category": "Diğer",
+    "exeNames": [
+      "nextcloud.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Proton Drive",
+    "category": "Diğer",
+    "exeNames": [
+      "ProtonDrive.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "AnyDesk",
+    "category": "Diğer",
+    "exeNames": [
+      "AnyDesk.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "TeamViewer",
+    "category": "Diğer",
+    "exeNames": [
+      "TeamViewer.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "RustDesk",
+    "category": "Diğer",
+    "exeNames": [
+      "rustdesk.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Parsec",
+    "category": "Diğer",
+    "exeNames": [
+      "parsecd.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Tailscale",
+    "category": "Diğer",
+    "exeNames": [
+      "tailscale-ipn.exe",
+      "tailscale.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "ZeroTier",
+    "category": "Diğer",
+    "exeNames": [
+      "zerotier_desktop_ui.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "WireGuard",
+    "category": "Diğer",
+    "exeNames": [
+      "wireguard.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "OpenVPN GUI",
+    "category": "Diğer",
+    "exeNames": [
+      "openvpn-gui.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Proton VPN",
+    "category": "Diğer",
+    "exeNames": [
+      "ProtonVPN.exe",
+      "ProtonVPN.Launcher.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Mullvad VPN",
+    "category": "Diğer",
+    "exeNames": [
+      "Mullvad VPN.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "NordVPN",
+    "category": "Diğer",
+    "exeNames": [
+      "NordVPN.exe"
+    ],
+    "aumids": [],
+    "publishers": []
+  },
+  {
+    "name": "Windows Calculator",
+    "category": "Diğer",
+    "exeNames": [
+      "CalculatorApp.exe"
+    ],
+    "aumids": [
+      "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Windows Notepad",
+    "category": "Diğer",
+    "exeNames": [
+      "notepad.exe"
+    ],
+    "aumids": [
+      "Microsoft.WindowsNotepad_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Microsoft Paint",
+    "category": "Diğer",
+    "exeNames": [
+      "mspaint.exe"
+    ],
+    "aumids": [
+      "Microsoft.Paint_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Windows Photos",
+    "category": "Diğer",
+    "exeNames": [
+      "Microsoft.Photos.exe"
+    ],
+    "aumids": [
+      "Microsoft.Windows.Photos_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  },
+  {
+    "name": "Snipping Tool",
+    "category": "Diğer",
+    "exeNames": [
+      "SnippingTool.exe"
+    ],
+    "aumids": [
+      "Microsoft.ScreenSketch_8wekyb3d8bbwe!App"
+    ],
+    "publishers": []
+  }
+]

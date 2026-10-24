@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+artifacts/
+.vs/
+.codebase-memory/
+*.user
+*.log
+restore-diagnostic.txt
