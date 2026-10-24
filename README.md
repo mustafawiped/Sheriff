@@ -152,7 +152,7 @@ The output is <code>artifacts\publish\win-x64\Sheriff.exe</code>; end users do n
 
 ## License
 
-There is no <code>LICENSE</code> file in this repository yet. Although the source is public, usage and redistribution terms have not been specified.
+Sheriff is licensed under the MIT License. See [LICENSE](LICENSE) for the full text.
 
 <div align="center">
   <sub>One shortcut. Clear categories. The app you need.</sub>
