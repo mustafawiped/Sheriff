@@ -51,7 +51,6 @@ public sealed class CatalogService : IDisposable
         try { await Task.Run(() => { _usage.Initialize(); _summaries = _usage.LoadSummaries(); }, token); }
         catch (Exception ex) { Diagnostics.Write("USAGE INIT " + ex.Message); }
         var cached = await Task.Run(_store.LoadApps, token);
-        await Task.Run(() => Icons.WarmImages(cached), token);
         _baseline = cached.Count > 0;
         Publish(cached);
         _watcher = new StartMenuWatcher(_scanRoots, RefreshAsync, token);

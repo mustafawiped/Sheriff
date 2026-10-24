@@ -4,12 +4,12 @@ using Sheriff.Core;
 
 namespace Sheriff.App;
 
-public sealed class AppTile(AppEntry entry, ImageSource? icon, bool pinned) : INotifyPropertyChanged
+public sealed class AppTile(AppEntry entry, ShellIconCache? icons, bool pinned) : INotifyPropertyChanged
 {
     private bool _selected;
     private bool _showHoverActions;
     public AppEntry Entry { get; } = entry;
-    public ImageSource? Icon { get; } = icon;
+    public ImageSource? Icon => icons?.GetImage(Entry.IconCachePath);
     public bool IsPinned { get; } = pinned;
     public string Initial => string.IsNullOrWhiteSpace(Entry.DisplayName) ? "?" : Entry.DisplayName.Trim()[..1].ToUpperInvariant();
     public string Tooltip => string.IsNullOrWhiteSpace(Entry.Publisher) ? Entry.DisplayName : Entry.DisplayName + "\n" + Entry.Publisher;

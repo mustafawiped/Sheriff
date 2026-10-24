@@ -1,8 +1,9 @@
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -12,20 +13,45 @@ using Sheriff.Core.Scanning;
 
 namespace Sheriff.App;
 
-/// <summary>GetOrCreate is used by the scanner; GetImage is memory-only for the UI.</summary>
+/// <summary>The scanner stores icon files; the UI decodes only requested icons into a bounded LRU cache.</summary>
 public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
 {
-    private readonly ConcurrentDictionary<string, BitmapSource> _images = new(StringComparer.OrdinalIgnoreCase);
-    public int ExtractedCount { get; private set; }
-    public int DiskHitCount { get; private set; }
-    public int MemoryHitCount { get; private set; }
+    private const int MaxInMemoryImages = 48;
+    private const int MaxIconDecodeWidth = 64;
+    private readonly object _imageGate = new();
+    private readonly Dictionary<string, LinkedListNode<CachedIcon>> _images = new(StringComparer.OrdinalIgnoreCase);
+    private readonly LinkedList<CachedIcon> _imageLru = new();
+    private int _extractedCount, _diskHitCount, _memoryHitCount;
+    public int ExtractedCount => Volatile.Read(ref _extractedCount);
+    public int DiskHitCount => Volatile.Read(ref _diskHitCount);
+    public int MemoryHitCount => Volatile.Read(ref _memoryHitCount);
 
-    public ImageSource? GetImage(string path) => _images.TryGetValue(path, out var image) ? image : null;
-
-    public void WarmImages(IEnumerable<AppEntry> apps)
+    public ImageSource? GetImage(string path)
     {
-        foreach (var app in apps)
-            if (!string.IsNullOrEmpty(app.IconCachePath)) TryLoad(app.IconCachePath);
+        if (string.IsNullOrWhiteSpace(path)) return null;
+        lock (_imageGate)
+        {
+            if (_images.TryGetValue(path, out var cached))
+            {
+                _imageLru.Remove(cached);
+                _imageLru.AddFirst(cached);
+                Interlocked.Increment(ref _memoryHitCount);
+                return cached.Value.Image;
+            }
+
+            var image = TryLoad(path);
+            if (image is null) return null;
+            Interlocked.Increment(ref _diskHitCount);
+            var node = _imageLru.AddFirst(new CachedIcon(path, image));
+            _images.Add(path, node);
+            if (_images.Count > MaxInMemoryImages)
+            {
+                var oldest = _imageLru.Last!;
+                _imageLru.RemoveLast();
+                _images.Remove(oldest.Value.Path);
+            }
+            return image;
+        }
     }
 
     public string GetOrCreate(AppEntry app, string parsingName, string iconLocation, DateTimeOffset modifiedAt)
@@ -36,8 +62,7 @@ public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
         var stamp = $"{app.Id}\n{parsingName}\n{iconLocation}\n{modifiedAt.UtcTicks}\n{targetStamp}";
         var fingerprint = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(stamp)))[..16].ToLowerInvariant();
         var path = Path.Combine(iconsDirectory, app.Id + "-" + fingerprint + ".png");
-        if (_images.ContainsKey(path)) { MemoryHitCount++; return path; }
-        if (TryLoad(path)) { DiskHitCount++; return path; }
+        if (File.Exists(path)) { Interlocked.Increment(ref _diskHitCount); return path; }
         BitmapSource? bitmap = null;
         var candidates = new List<string> { parsingName };
         if (!string.IsNullOrWhiteSpace(iconLocation))
@@ -60,27 +85,28 @@ public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
             encoder.Frames.Add(BitmapFrame.Create(bitmap));
             using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) encoder.Save(output);
             File.Move(temporary, path, true);
-            _images[path] = bitmap;
-            ExtractedCount++;
+            Interlocked.Increment(ref _extractedCount);
             return path;
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
 
-    private bool TryLoad(string path)
+    private static BitmapSource? TryLoad(string path)
     {
-        if (_images.ContainsKey(path)) return true;
         try
         {
-            if (!File.Exists(path)) return false;
+            if (!File.Exists(path)) return null;
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
-            var decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-            var image = decoder.Frames[0];
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.DecodePixelWidth = MaxIconDecodeWidth;
+            image.StreamSource = stream;
+            image.EndInit();
             image.Freeze();
-            _images[path] = image;
-            return true;
+            return image;
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException or FileFormatException) { return false; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException or FileFormatException or ArgumentException) { return null; }
     }
 
     private static BitmapSource? Extract(string parsingName)
@@ -92,9 +118,9 @@ public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
         {
             var iid = typeof(IShellItemImageFactory).GUID;
             if (SHCreateItemFromParsingName(parsingName, 0, ref iid, out factory) < 0 || factory is null) return null;
-            // ICONONLY | BIGGERSIZEOK. This API can block, so only the scanner calls it.
-            if (factory.GetImage(new SizeInt { Width = 64, Height = 64 }, 0x5, out bitmap) < 0 || bitmap == 0) return null;
-            var image = Imaging.CreateBitmapSourceFromHBitmap(bitmap, 0, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            // Request a standard-size icon without the larger-image option; only the scanner calls this blocking API.
+            if (factory.GetImage(new SizeInt { Width = MaxIconDecodeWidth, Height = MaxIconDecodeWidth }, 0x4, out bitmap) < 0 || bitmap == 0) return null;
+            var image = Imaging.CreateBitmapSourceFromHBitmap(bitmap, 0, Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(MaxIconDecodeWidth, MaxIconDecodeWidth));
             image.Freeze();
             return image;
         }
@@ -107,6 +133,7 @@ public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
     }
 
     [StructLayout(LayoutKind.Sequential)] private struct SizeInt { public int Width, Height; }
+    private sealed record CachedIcon(string Path, BitmapSource Image);
     [ComImport, Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     private interface IShellItemImageFactory
     {

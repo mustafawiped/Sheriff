@@ -27,6 +27,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private readonly List<AppTile> _visibleTiles = [];
     private readonly Dictionary<AppTile, object> _tileRows = [];
     private readonly DispatcherTimer _hoverTimer;
+    private readonly DispatcherTimer _animationCacheReleaseTimer;
     private AppTile? _hoverCandidate;
     private string? _activeCategory;
     private int _displayedAppCount, _categoryCardCount;
@@ -66,6 +67,8 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         InitializeComponent();
         _hoverTimer = new DispatcherTimer(DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(450) };
         _hoverTimer.Tick += OnHoverTimerTick;
+        _animationCacheReleaseTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(180) };
+        _animationCacheReleaseTimer.Tick += OnAnimationCacheReleaseTick;
         _contentFade.Freeze(); _contentSlide.Freeze();
         _viewReady = true;
         RebuildRows(); UpdateAnimationPreference();
@@ -97,7 +100,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         _catalog ??= ((App)System.Windows.Application.Current).Catalog;
         _apps = apps;
         _tiles.Clear();
-        foreach (var app in apps) _tiles[app.Id] = new(app, _catalog?.Icons.GetImage(app.IconCachePath), _catalog?.Config.PinnedAppIds.Contains(app.Id) == true);
+        foreach (var app in apps) _tiles[app.Id] = new(app, _catalog?.Icons, _catalog?.Config.PinnedAppIds.Contains(app.Id) == true);
         RebuildRows();
         if (!IsVisible) PrepareCachedView();
     }
@@ -115,18 +118,27 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private void UpdateAnimationPreference()
     {
         _animateContent = SystemParameters.ClientAreaAnimation && !SystemParameters.HighContrast && (RenderCapability.Tier >> 16) > 0;
-        PanelContent.CacheMode = _animateContent ? new BitmapCache { EnableClearType = true, SnapsToDevicePixels = true } : null;
         if (!_animateContent) StopContentAnimation();
     }
     private void StartContentAnimation()
     {
         if (!_animateContent) return;
         // The native window and its material are fully visible at Show; only content moves 4px.
+        PanelContent.CacheMode = new BitmapCache { EnableClearType = true, SnapsToDevicePixels = true };
+        _animationCacheReleaseTimer.Stop();
+        _animationCacheReleaseTimer.Start();
         PanelContent.BeginAnimation(OpacityProperty, _contentFade, HandoffBehavior.SnapshotAndReplace);
         ContentOffset.BeginAnimation(TranslateTransform.YProperty, _contentSlide, HandoffBehavior.SnapshotAndReplace);
     }
+    private void OnAnimationCacheReleaseTick(object? sender, EventArgs e)
+    {
+        _animationCacheReleaseTimer.Stop();
+        PanelContent.CacheMode = null;
+    }
     private void StopContentAnimation()
     {
+        _animationCacheReleaseTimer.Stop();
+        PanelContent.CacheMode = null;
         PanelContent.BeginAnimation(OpacityProperty, null);
         ContentOffset.BeginAnimation(TranslateTransform.YProperty, null);
     }
@@ -174,7 +186,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         var matching = _activeCategory is null ? allMatching : allMatching.Where(a => a.Category.Equals(_activeCategory, StringComparison.OrdinalIgnoreCase)).ToArray();
         _displayedAppCount = matching.Length;
         var frequent = (_catalog?.FrequentApps ?? allMatching.Where(a => a.Category != Categories.Junk).Take(8).ToArray())
-            .Where(a => _tiles.ContainsKey(a.Id)).Select(a => new AppTile(a, _tiles[a.Id].Icon, _tiles[a.Id].IsPinned)).ToArray();
+            .Where(a => _tiles.ContainsKey(a.Id)).Select(a => new AppTile(a, _catalog?.Icons, _tiles[a.Id].IsPinned)).ToArray();
         FrequentItems.ItemsSource = frequent;
         FrequentSection.Visibility = _activeCategory is null && search.Length == 0 && frequent.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         CategoryNavigation.Visibility = _activeCategory is null ? Visibility.Collapsed : Visibility.Visible;
