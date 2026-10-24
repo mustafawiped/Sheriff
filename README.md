@@ -1,159 +1,159 @@
 <div align="center">
   <h1>Sheriff</h1>
-  <p><strong>Windows 11 için hızlı, kategorili ve klavyeden erişilebilen uygulama başlatıcısı.</strong></p>
+  <p><strong>A fast, categorized, keyboard-first app launcher for Windows 11.</strong></p>
   <p>
     <img src="https://img.shields.io/badge/Windows-11-0078D4?logo=windows11&logoColor=white" alt="Windows 11" />
     <img src="https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white" alt=".NET 8" />
-    <img src="https://img.shields.io/badge/Arayüz-WPF-7557D3" alt="WPF" />
+    <img src="https://img.shields.io/badge/UI-WPF-7557D3" alt="WPF" />
     <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><img src="https://img.shields.io/badge/Release-v1.0.0-D4B46F" alt="v1.0.0 release" /></a>
   </p>
   <p>
-    <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><strong>Windows sürümünü indir</strong></a>
+    <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><strong>Download for Windows</strong></a>
     &nbsp;·&nbsp;
-    <a href="#hizli-baslangic">Hızlı başlangıç</a>
+    <a href="#quick-start">Quick start</a>
     &nbsp;·&nbsp;
-    <a href="#gizlilik">Gizlilik</a>
+    <a href="#privacy">Privacy</a>
   </p>
-  <img src="assets/readme/sheriff-tour.gif" width="584" alt="Sheriff ekranında arama ve kategori kartlarını vurgulayan animasyon" />
-  <p><sub>Animasyon, arama alanını ve kategori kartlarını sırayla vurgular.</sub></p>
+  <img src="assets/readme/sheriff-tour.gif" width="584" alt="An animation highlighting Sheriff’s search field and category cards" />
+  <p><sub>The animation highlights the search field and category cards in sequence.</sub></p>
 </div>
 
 ---
 
-## Sheriff'e göz atın
+## Take a look at Sheriff
 
-Aşağıdaki ekran görüntüsü Sheriff'in gerçek Windows arayüzünden alınmıştır. Kategoriler ve uygulama sayısı her bilgisayardaki kurulumlara göre değişir.
+This screenshot is from the real Sheriff interface running on Windows. Categories and app counts vary depending on what is installed on each PC.
 
-![Sheriff'in kare kategori kartları ve uygulama önizlemeleriyle ana ekranı](assets/readme/sheriff-overview.png)
+![Sheriff’s home screen with square category cards and app previews](assets/readme/sheriff-overview.png)
 
-## Uygulamalarınıza tek hamlede ulaşın
+## Get to your apps in a keystroke
 
-Sheriff; Başlat menüsü kısayollarını ve paketli Windows uygulamalarını tarar, anlaşılır kategorilerde toplar ve her seferinde aynı hazır panelden açar. Görev çubuğundaki Sheriff simgesine, sistem tepsisine ya da `Ctrl+Alt+Space` kısayoluna basın.
+Sheriff scans Start menu shortcuts and packaged Windows apps, organizes them into clear categories, and opens them from one always-ready panel. Open it from the Sheriff taskbar icon, the system tray, or the <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> shortcut.
 
-| Özellik | Ne sağlar? |
+| Feature | What it does |
 | --- | --- |
-| **Hızlı arama** | Uygulama adı, yayıncı veya açıklama yazarak anında filtreleyin. |
-| **Kare kategori kartları** | Uygulamaları Windows 11 Başlat görünümüne benzer kutucuklarda bulun; kart içindeki önizleme simgesine basarak doğrudan açın. |
-| **Beklet ve düzenle** | Uygulama üzerinde 450 ms bekleyince **Taşı** ve **Kategoriden kaldır** seçenekleri görünür. Kaldırdıklarınızı Ayarlar'dan geri alın. |
-| **Sürükle ve bırak** | Bir uygulamayı kategori kartına veya kategori ayrıntısındaki satıra bırakarak konumunu değiştirin. |
-| **Akıllı sıralama** | Kullanım geçmişi ve sabitlemeler sık kullandıklarınızı öne çıkarır. |
-| **Windows entegrasyonu** | Başlat menüsü kısayolları, AppsFolder uygulamaları, tepsi menüsü ve isteğe bağlı Windows başlangıcı. |
+| **Instant search** | Filter by app name, publisher, or description as you type. |
+| **Square category cards** | Find apps in tiles inspired by the Windows 11 Start experience, then launch directly from an app preview. |
+| **Hover to organize** | Hover over an app for 450 ms to reveal **Move** and **Remove from category** actions. Restore removed apps from Settings. |
+| **Drag and drop** | Move an app by dropping it on a category card or into a category’s detail view. |
+| **Smart ranking** | Usage history and pins bring frequently used apps closer. |
+| **Windows integration** | Start menu shortcuts, AppsFolder apps, a tray menu, and optional launch at Windows startup. |
 
-## Hızlı başlangıç
+## Quick start
 
-1. [**v1.0.0 sürümünden `Sheriff.exe` dosyasını indirin**](https://github.com/mustafawiped/Sheriff/releases/latest).
-2. EXE'yi kalıcı bir klasöre kaydedip çalıştırın.
-3. `Ctrl+Alt+Space` ile paneli açın; uygulama adı veya yayıncı yazın.
-4. Kategori kartındaki uygulama önizlemesine basın ya da kartın boş alanından kategori ayrıntısını açın.
+1. [**Download Sheriff.exe from the v1.0.0 release**](https://github.com/mustafawiped/Sheriff/releases/latest).
+2. Save the EXE in a permanent folder and run it.
+3. Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> to open the panel, then type an app name or publisher.
+4. Select an app preview to launch it, or click the empty area of a category card to open its details.
 
-> **İpucu:** Panel dışına tıklamak veya `Esc` tuşuna basmak paneli gizler; Sheriff arka planda hazır kalır.
+> **Tip:** Click outside the panel or press <kbd>Esc</kbd> to hide it. Sheriff stays ready in the background.
 
-### Kısayollar ve fare
+### Keyboard and mouse
 
-| Eylem | Kontrol |
+| Action | Control |
 | --- | --- |
-| Paneli aç/kapat | `Ctrl+Alt+Space`, tepsi simgesine sol tık veya sabitlenmiş EXE |
-| Sonuçlarda gezin | `↑` / `↓` |
-| Uygulamayı başlat | `Enter` veya uygulama simgesine tıklama |
-| Paneli kapat | `Esc` ya da başka pencereye tıklama |
-| Uygulamayı taşı/kaldır | Uygulama simgesinin üzerinde 450 ms bekleyip çıkan eylemi seçme |
-| Kategoriyi aç | Kategori kartının boş alanına tıklama |
-| Uygulamayı kategorile | Uygulamayı kategori kartına sürükleme veya sağ tık menüsünü kullanma |
+| Show or hide the panel | <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd>, left-click the tray icon, or run the pinned EXE |
+| Navigate results | <kbd>↑</kbd> / <kbd>↓</kbd> |
+| Launch an app | <kbd>Enter</kbd> or click its icon |
+| Close the panel | <kbd>Esc</kbd> or click another window |
+| Move or remove an app | Hover over its icon for 450 ms, then choose an action |
+| Open a category | Click the empty area of a category card |
+| Categorize an app | Drag it onto a category card or use its right-click menu |
 
-## Kategorizasyon nasıl çalışır?
+## How categorization works
 
-Sheriff sınıflandırmayı önce yerel ve kullanıcı kontrollü kurallarla yapar:
+Sheriff starts with local, user-controlled rules:
 
-```mermaid
+~~~mermaid
 flowchart TD
-    A[Uygulama bulundu] --> B{Elle kategori seçilmiş mi?}
-    B -- Evet --> U[Kullanıcının kategorisi]
-    B -- Hayır --> J{Yardımcı veya kaldırıcı girdisi mi?}
-    J -- Evet --> X[Gereksiz]
-    J -- Hayır --> K{Bilinen uygulama kuralı var mı?}
-    K -- Evet --> C[Bilinen kategori]
-    K -- Hayır --> P[Yayıncı ve klasör kuralları]
-    P --> W[Ad ve açıklama kelime puanı]
-    W --> L{LLM yedeği etkin mi?}
-    L -- Evet --> O[İsteğe bağlı OpenAI sınıflandırması]
-    L -- Hayır --> D[Diğer]
+    A[App discovered] --> B{Manually assigned category?}
+    B -- Yes --> U[User-selected category]
+    B -- No --> J{Helper or uninstaller entry?}
+    J -- Yes --> X[Unwanted]
+    J -- No --> K{Known app rule?}
+    K -- Yes --> C[Known category]
+    K -- No --> P[Publisher and folder rules]
+    P --> W[Name and description keyword scores]
+    W --> L{LLM fallback enabled?}
+    L -- Yes --> O[Optional OpenAI classification]
+    L -- No --> D[Other]
     O --> D
-```
+~~~
 
-- Elle verilen kategori otomatik sınıflandırmadan önceliklidir.
-- Uygulama kataloğunda 384 bilinen uygulama kuralı bulunur; EXE ve AUMID eşleşmeleri yayıncı kuralından önce değerlendirilir.
-- **Gereksiz** yardımcı girdileri ayrı tutar; bu kategori ana ekranda uygulama simgesi önizlemesi göstermez ve ayrıntıda başlangıçta daraltılmıştır.
-- Kullanım puanı 30 günlük yarı ömürle azalır; sabitleme kalıcı bir sıralama bonusu verir.
+- A manually assigned category takes precedence over automatic classification.
+- The app catalog contains 384 known-app rules. EXE and AUMID matches are checked before publisher rules.
+- **Unwanted** keeps helper entries separate. It has no app preview on the home screen, and its items are collapsed by default in the detail view.
+- Usage scores decay with a 30-day half-life; pinning adds a lasting ranking bonus.
 
-## Gizlilik
+## Privacy
 
-Sheriff uygulama kataloğunu, tercihleri, simge önbelleğini ve kullanım sıralamasını yerel olarak `%LocalAppData%\Sheriff` altında saklar.
+Sheriff stores its app catalog, preferences, icon cache, and usage ranking locally under <code>%LocalAppData%\Sheriff</code>.
 
-İsteğe bağlı LLM sınıflandırması **varsayılan olarak kapalıdır**. Ayarlardan açıp kendi API anahtarınızı girdiğinizde, yalnızca yerel kurallarla sınıflandırılamayan uygulamanın **adı ve yayıncısı** `https://api.openai.com/v1/chat/completions` adresine gönderilir. Dosya yolu, komut satırı argümanları, açıklama, simge ve kullanım geçmişi gönderilmez. API anahtarı Windows DPAPI ile korunur. Elle verdiğiniz kategori ve Gereksiz filtresi LLM tarafından geçersiz kılınamaz.
+Optional LLM classification is **off by default**. If you enable it in Settings and enter your own API key, only the **name and publisher** of an app that local rules could not classify are sent to <code>https://api.openai.com/v1/chat/completions</code>. File paths, command-line arguments, descriptions, icons, and usage history are not sent. The API key is protected with Windows DPAPI. The LLM cannot override a manually assigned category or the Unwanted filter.
 
-| Yerel veri | İçerik |
+| Local data | Contents |
 | --- | --- |
-| `config.json` | Kategoriler, kategori tercihleri, sabitlemeler, gizlenen uygulamalar ve ayarlar |
-| `apps.json` | Son uygulama taramasının önbelleği |
-| `icons/` | Windows Shell'den çıkarılan simge önbelleği |
-| `usage.db` | Sheriff üzerinden başlatma geçmişi ve sıralama verisi |
-| `llm-cache.json` | LLM yedeği açıksa kabul edilmiş sınıflandırma sonuçları |
+| <code>config.json</code> | Categories, category preferences, pins, hidden apps, and settings |
+| <code>apps.json</code> | Cache from the most recent app scan |
+| <code>icons/</code> | Icons extracted from the Windows Shell |
+| <code>usage.db</code> | Launch history and ranking data from Sheriff |
+| <code>llm-cache.json</code> | Accepted classification results when the LLM fallback is enabled |
 
-## Mimari
+## Architecture
 
-```mermaid
+~~~mermaid
 flowchart LR
-    User[Klavyeden, tepsiden veya görev çubuğundan çağrı] --> App[WPF paneli · tek pencere]
-    App --> Core[Tarayıcı ve kategorizasyon]
-    Core --> Start[Başlat menüsü kısayolları]
+    User[Keyboard, tray, or taskbar] --> App[WPF panel · single window]
+    App --> Core[Scanner and categorization]
+    Core --> Start[Start menu shortcuts]
     Core --> Store[Windows AppsFolder]
-    Core --> Rank[Kullanım sıralaması]
+    Core --> Rank[Usage ranking]
     Rank --> DB[(SQLite)]
-    Core --> Config[(JSON ayar ve önbellek)]
-    Watch[Dosya ve Shell değişiklik izleyicileri] --> Core
-    Core -. isteğe bağlı, adı ve yayıncı .-> OpenAI[OpenAI Chat Completions]
-```
+    Core --> Config[(JSON settings and cache)]
+    Watch[File and Shell change watchers] --> Core
+    Core -. optional app name and publisher .-> OpenAI[OpenAI Chat Completions]
+~~~
 
-- **Sheriff.App:** .NET 8 WPF arayüzü, tek örnekli açılış, named pipe, global kısayol, tepsi ve Windows entegrasyonu.
-- **Sheriff.Core:** Windows uygulama tarayıcısı, kategori kuralları, bilinen uygulamalar ve kullanım puanlama modeli.
-- **Sheriff.Data:** Atomik JSON saklama, DPAPI ile API anahtarı koruması ve SQLite kullanım verisi.
-- **Sheriff.Tests:** xUnit testleri.
+- **Sheriff.App:** .NET 8 WPF interface, single-instance startup, named pipe, global shortcut, tray, and Windows integration.
+- **Sheriff.Core:** Windows app scanner, category rules, known apps, and usage-ranking model.
+- **Sheriff.Data:** Atomic JSON storage, DPAPI-protected API key, and SQLite usage data.
+- **Sheriff.Tests:** xUnit tests.
 
-Ana pencere süreç boyunca bellekte hazır tutulur. Başlat menüsü `.lnk` dosyaları ve Store uygulamaları arka planda taranır; simgeler önbellekten gösterilir. İkinci Sheriff örneği yeni pencere açmak yerine çalışan panele aç/kapat isteği gönderir.
+The main window stays in memory so it is ready when you need it. Start menu <code>.lnk</code> files and Store apps are scanned in the background; icons are served from a cache. Launching a second Sheriff instance asks the running panel to show or hide instead of opening another window.
 
-## Geliştirme
+## Development
 
-Gereksinimler: Windows 11 x64 ve .NET 8 SDK. Kaynak kodu derlemek için ilk NuGet geri yüklemesinde internet bağlantısı gerekir.
+Requirements: Windows 11 x64 and the .NET 8 SDK. An internet connection is needed for the initial NuGet restore.
 
-```powershell
+~~~powershell
 .\scripts\build.ps1
-```
+~~~
 
-Testleri doğrudan çalıştırmak için:
+To run the tests directly:
 
-```powershell
+~~~powershell
 dotnet test Sheriff.Tests\Sheriff.Tests.csproj -c Release
-```
+~~~
 
-Tek dosyalı, self-contained Windows sürümünü üretmek için:
+To create a self-contained, single-file Windows build:
 
-```powershell
+~~~powershell
 .\scripts\publish.ps1
-```
+~~~
 
-Çıktı `artifacts\publish\win-x64\Sheriff.exe` olur; son kullanıcıda ayrıca .NET kurulması gerekmez. SQLite'ın yerel bileşenleri de pakete eklenir.
+The output is <code>artifacts\publish\win-x64\Sheriff.exe</code>; end users do not need a separate .NET installation. SQLite native components are bundled as well.
 
-## Doğrulama
+## Validation
 
-- Release derlemesi: 0 uyarı, 0 hata.
-- xUnit: **113 test geçti**.
-- `--ui-smoke`: kategori görünümü ve ayrıntısı, bekleme eylemleri, önizleme başlatma olayı ve kaldırma kaydı sentetik uygulamalarla doğrulanır.
-- Performans günlüğü `SHOW_RETURN` ve ilk WPF `CompositionTarget.Rendering` callback'ini `SHOW_RENDER` olarak yazar. `SHOW_RENDER` gerçek ekranda fiziksel sunumu ölçmez. Yüklü arayüz için 50 ms hedefi son düzenlemeden sonra yeniden ölçülmedi; bu nedenle hedefin karşılandığı iddia edilmez.
+- Release build: 0 warnings, 0 errors.
+- xUnit: **113 tests passed**.
+- <code>--ui-smoke</code> verifies the category overview and detail view, hover actions, preview launch event, and removal record with synthetic apps.
+- The performance log records <code>SHOW_RETURN</code> and the first WPF <code>CompositionTarget.Rendering</code> callback as <code>SHOW_RENDER</code>. <code>SHOW_RENDER</code> does not measure physical presentation on screen. The 50 ms target was not remeasured after the last UI changes, so this README does not claim that the target is met.
 
-## Lisans
+## License
 
-Bu depoda henüz `LICENSE` dosyası yoktur. Kaynak kodu herkese açık olsa da kullanım ve yeniden dağıtım izni ayrıca tanımlanmamıştır.
+There is no <code>LICENSE</code> file in this repository yet. Although the source is public, usage and redistribution terms have not been specified.
 
 <div align="center">
-  <sub>Bir kısayol. Kategoriler. Aradığınız uygulama.</sub>
+  <sub>One shortcut. Clear categories. The app you need.</sub>
 </div>
