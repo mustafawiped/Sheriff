@@ -1,5 +1,16 @@
 [
   {
+    "name": "OpenAI Codex",
+    "category": "Yazılım",
+    "exeNames": [],
+    "aumids": [
+      "OpenAI.Codex_2p2nqsd0c76g0!App"
+    ],
+    "publishers": [
+      "OpenAI"
+    ]
+  },
+  {
     "name": "Visual Studio Code",
     "category": "Yazılım",
     "exeNames": [

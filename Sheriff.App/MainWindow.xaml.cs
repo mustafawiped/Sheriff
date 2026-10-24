@@ -39,8 +39,10 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private long _lastDragScroll;
     private FrameworkElement? _dropHighlight;
     private Brush? _dropBackground, _dropBorder;
-    private readonly DoubleAnimation _contentFade = new(0.94, 1, TimeSpan.FromMilliseconds(100)) { FillBehavior = FillBehavior.Stop };
-    private readonly DoubleAnimation _contentSlide = new(4, 0, TimeSpan.FromMilliseconds(100)) { FillBehavior = FillBehavior.Stop, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+    private readonly DoubleAnimation _contentFade = new(0.92, 1, TimeSpan.FromMilliseconds(130)) { FillBehavior = FillBehavior.Stop, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+    private readonly DoubleAnimation _contentSlide = new(6, 0, TimeSpan.FromMilliseconds(130)) { FillBehavior = FillBehavior.Stop, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+    private readonly DoubleAnimation _contentScaleX = new(0.975, 1, TimeSpan.FromMilliseconds(130)) { FillBehavior = FillBehavior.Stop, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+    private readonly DoubleAnimation _contentScaleY = new(0.975, 1, TimeSpan.FromMilliseconds(130)) { FillBehavior = FillBehavior.Stop, EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
     private long _showStarted;
     private bool _animateContent;
     public nint Handle { get; private set; }
@@ -61,6 +63,8 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     public event Action<AppEntry>? HideRequested;
     public event Action<AppEntry>? LocationRequested;
     public event Action? SettingsRequested;
+    public event Action? CategoryOpened;
+    public event Action? Dismissed;
 
     public MainWindow()
     {
@@ -69,7 +73,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         _hoverTimer.Tick += OnHoverTimerTick;
         _animationCacheReleaseTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(180) };
         _animationCacheReleaseTimer.Tick += OnAnimationCacheReleaseTick;
-        _contentFade.Freeze(); _contentSlide.Freeze();
+        _contentFade.Freeze(); _contentSlide.Freeze(); _contentScaleX.Freeze(); _contentScaleY.Freeze();
         _viewReady = true;
         RebuildRows(); UpdateAnimationPreference();
         ApplicationThemeManager.Changed += OnApplicationThemeChanged;
@@ -123,12 +127,14 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private void StartContentAnimation()
     {
         if (!_animateContent) return;
-        // The native window and its material are fully visible at Show; only content moves 4px.
+        // Keep the motion on content only, with a short scale-and-settle entrance.
         PanelContent.CacheMode = new BitmapCache { EnableClearType = true, SnapsToDevicePixels = true };
         _animationCacheReleaseTimer.Stop();
         _animationCacheReleaseTimer.Start();
         PanelContent.BeginAnimation(OpacityProperty, _contentFade, HandoffBehavior.SnapshotAndReplace);
         ContentOffset.BeginAnimation(TranslateTransform.YProperty, _contentSlide, HandoffBehavior.SnapshotAndReplace);
+        ContentScale.BeginAnimation(ScaleTransform.ScaleXProperty, _contentScaleX, HandoffBehavior.SnapshotAndReplace);
+        ContentScale.BeginAnimation(ScaleTransform.ScaleYProperty, _contentScaleY, HandoffBehavior.SnapshotAndReplace);
     }
     private void OnAnimationCacheReleaseTick(object? sender, EventArgs e)
     {
@@ -141,6 +147,8 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         PanelContent.CacheMode = null;
         PanelContent.BeginAnimation(OpacityProperty, null);
         ContentOffset.BeginAnimation(TranslateTransform.YProperty, null);
+        ContentScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        ContentScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
     }
     private void ApplyAppearance()
     {
@@ -240,7 +248,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         TileList.ItemsSource = _rows;
         EmptyState.Visibility = matching.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         EmptyTitle.Text = search.Length == 0 ? "Henüz uygulama yok" : "Eşleşen uygulama yok";
-        EmptyDescription.Text = search.Length == 0 ? "Uygulamalarınız arka planda hazırlanıyor." : "Başka bir ad veya yayıncı deneyin.";
+        EmptyDescription.Text = search.Length == 0 ? "Kurulu uygulamalar ilk tarama tamamlanınca burada görünecek." : "Başka bir ad veya yayıncı deneyin.";
         StatusText.Text = search.Length > 0 ? $"{matching.Length} sonuç" : _activeCategory is null ? $"{_categoryCardCount} kategori · {matching.Length} uygulama" : $"{matching.Length} uygulama · Hazır";
     }
     private static bool Matches(string text, string search) => CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, search, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
@@ -257,6 +265,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         _activeCategory = category;
         RebuildRows();
         FindChild<ScrollViewer>(TileList)?.ScrollToTop();
+        CategoryOpened?.Invoke();
     }
     public void ShowAllCategories()
     {
@@ -542,12 +551,14 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     }
     public void HidePanel()
     {
+        var wasVisible = IsVisible;
         if (_rendered is not null) CompositionTarget.Rendering -= _rendered;
         _hiding = true;
         try { Hide(); } finally { _hiding = false; }
         StopContentAnimation();
         if (SearchBox.Text.Length > 0) { SearchBox.Clear(); PrepareCachedView(); }
         ClearSelection();
+        if (wasVisible) Dismissed?.Invoke();
     }
     private nint WindowMessage(nint hwnd, int message, nint wParam, nint lParam, ref bool handled) { if (message == 0x0312) { Toggle(); handled = true; } return 0; }
     private void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)

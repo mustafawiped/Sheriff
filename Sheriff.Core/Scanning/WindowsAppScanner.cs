@@ -22,6 +22,23 @@ public sealed class WindowsAppScanner(IAppIconCache icons, IEnumerable<string>? 
         Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms),
         Environment.GetFolderPath(Environment.SpecialFolder.Programs)];
 
+    public static AppEntry NormalizeKnownStoreApp(AppEntry app)
+    {
+        if (app.Source != AppSource.Store ||
+            !app.TargetPathOrAumid.StartsWith("OpenAI.Codex_", StringComparison.OrdinalIgnoreCase)) return app;
+
+        var description = app.Description?.Trim() ?? "";
+        if (!description.Contains("ChatGPT", StringComparison.OrdinalIgnoreCase))
+            description = string.IsNullOrWhiteSpace(description) ? "ChatGPT" : description + " · ChatGPT";
+
+        return app with
+        {
+            DisplayName = "Codex",
+            Publisher = string.IsNullOrWhiteSpace(app.Publisher) ? "OpenAI" : app.Publisher,
+            Description = description
+        };
+    }
+
     public Task<ScanResult> ScanAsync(CancellationToken cancellationToken = default)
     {
         var result = new TaskCompletionSource<ScanResult>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -161,13 +178,13 @@ public sealed class WindowsAppScanner(IAppIconCache icons, IEnumerable<string>? 
                     // AppsFolder includes desktop programs too; the Start Menu pass resolves those more accurately.
                     if (string.IsNullOrWhiteSpace(aumid) || (!aumid.Contains('!') && string.IsNullOrEmpty(installPath))) continue;
                     var displayName = (string?)((dynamic)item).Name ?? aumid;
-                    var app = new AppEntry
+                    var app = NormalizeKnownStoreApp(new AppEntry
                     {
                         Id = StableId("store", aumid.ToUpperInvariant()), DisplayName = displayName,
                         TargetPathOrAumid = aumid, Publisher = Property(item!, "System.Company"),
                         Description = Property(item!, "System.FileDescription"), Source = AppSource.Store,
                         InstalledAt = Directory.Exists(installPath) ? Directory.GetCreationTimeUtc(installPath) : DateTimeOffset.UtcNow
-                    };
+                    });
                     var modified = Directory.Exists(installPath) ? Directory.GetLastWriteTimeUtc(installPath) : DateTime.UnixEpoch;
                     app = app with { IconCachePath = GetIcon(app, @"shell:AppsFolder\" + aumid, "", modified, errors) };
                     apps.TryAdd(app.Id, app);

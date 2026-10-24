@@ -44,18 +44,22 @@ public sealed class CatalogService : IDisposable
         _scanner = new WindowsAppScanner(Icons, _scanRoots, includeStore);
     }
 
-    public async Task InitializeAsync(CancellationToken token)
+    public async Task InitializeAsync(CancellationToken token, bool refreshImmediately = true)
     {
         _lifetime = token;
         if (!File.Exists(_paths.ConfigFile)) await Task.Run(() => _store.SaveConfig(Config), token);
-        try { await Task.Run(() => { _usage.Initialize(); _summaries = _usage.LoadSummaries(); }, token); }
-        catch (Exception ex) { Diagnostics.Write("USAGE INIT " + ex.Message); }
-        var cached = await Task.Run(_store.LoadApps, token);
+        var cached = (await Task.Run(_store.LoadApps, token)).Select(WindowsAppScanner.NormalizeKnownStoreApp).ToList();
         _baseline = cached.Count > 0;
         Publish(cached);
         _watcher = new StartMenuWatcher(_scanRoots, RefreshAsync, token);
         _watcher.Error += ex => Diagnostics.Write("WATCHER " + ex.Message);
-        await RefreshAsync(token);
+        try
+        {
+            await Task.Run(() => { _usage.Initialize(); _summaries = _usage.LoadSummaries(); }, token);
+            Publish(Apps);
+        }
+        catch (Exception ex) { Diagnostics.Write("USAGE INIT " + ex.Message); }
+        if (refreshImmediately) await RefreshAsync(token);
     }
 
     public async Task RefreshAsync(CancellationToken token = default)
@@ -63,7 +67,7 @@ public sealed class CatalogService : IDisposable
         await _scanGate.WaitAsync(token);
         try
         {
-            StatusChanged?.Invoke("Uygulamalar arka planda taranıyor…");
+            StatusChanged?.Invoke("Uygulamalar yenileniyor…");
             var result = await _scanner.ScanAsync(token);
             var previous = Apps.ToDictionary(a => a.Id, StringComparer.OrdinalIgnoreCase);
             var next = result.Apps.Select(a => previous.TryGetValue(a.Id, out var old)

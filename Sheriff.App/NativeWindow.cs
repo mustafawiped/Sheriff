@@ -83,7 +83,7 @@ internal static class NativeWindow
     public static void SetStartup(bool enabled)
     {
         using var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
-        if (enabled) key.SetValue("Sheriff", $"\"{Environment.ProcessPath}\" --background");
+        if (enabled) key.SetValue("Sheriff", $"\"{Environment.ProcessPath}\"");
         else key.DeleteValue("Sheriff", false);
     }
 

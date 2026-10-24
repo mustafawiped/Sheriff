@@ -12,9 +12,10 @@ public partial class App : System.Windows.Application
 {
     private readonly string[] _args;
     private readonly CancellationTokenSource _shutdown = new();
-    private System.Windows.Forms.NotifyIcon? _tray;
-    private System.Drawing.Icon? _trayIcon;
+    private readonly object _pendingActionsGate = new();
+    private readonly HashSet<Task> _pendingActions = [];
     private ShellChangeWatcher? _shellChanges;
+    private bool _interactiveMode, _categoryRefreshRequested, _dismissalShutdownStarted;
     internal MainWindow Panel { get; private set; } = null!;
     internal CatalogService? Catalog { get; private set; }
 
@@ -32,24 +33,17 @@ public partial class App : System.Windows.Application
         Panel = new MainWindow();
         if (Environment.GetEnvironmentVariable("SHERIFF_UI_TEST") == "1") { Panel.ShowInTaskbar = true; Panel.SuppressAutoHide = true; }
         Panel.LaunchRequested += LaunchApp;
+        Panel.CategoryOpened += OnCategoryOpened;
+        Panel.Dismissed += OnPanelDismissed;
         Panel.LocationRequested += app => { try { AppLauncher.OpenLocation(app); } catch (Exception ex) { Panel.UpdateStatus(ex.Message); } };
         Panel.SettingsRequested += ShowSettings;
-        Panel.CategoryChangeRequested += (app, category) => _ = SaveActionAsync(() => Catalog!.AssignCategoryAsync(app, category));
-        Panel.CategoryResetRequested += app => _ = SaveActionAsync(() => Catalog!.ResetCategoryAsync(app));
-        Panel.PinRequested += app => _ = SaveActionAsync(() => Catalog!.TogglePinAsync(app));
-        Panel.HideRequested += app => _ = SaveActionAsync(() => Catalog!.HideAsync(app));
+        Panel.CategoryChangeRequested += (app, category) => QueueSaveAction(() => Catalog!.AssignCategoryAsync(app, category));
+        Panel.CategoryResetRequested += app => QueueSaveAction(() => Catalog!.ResetCategoryAsync(app));
+        Panel.PinRequested += app => QueueSaveAction(() => Catalog!.TogglePinAsync(app));
+        Panel.HideRequested += app => QueueSaveAction(() => Catalog!.HideAsync(app));
         MainWindow = Panel;
         Panel.WarmUp();
         SystemThemeWatcher.Watch(Panel);
-        var menu = new System.Windows.Forms.ContextMenuStrip();
-        menu.Items.Add("Sheriff'i aç", null, (_, _) => Dispatcher.Invoke(Panel.ToggleFromInvocation));
-        menu.Items.Add("Uygulamaları yenile", null, (_, _) => Catalog?.RequestRefresh());
-        menu.Items.Add("Ayarlar", null, (_, _) => Dispatcher.Invoke(ShowSettings));
-        menu.Items.Add("Çıkış", null, (_, _) => Dispatcher.Invoke(() => Shutdown()));
-        using (var iconStream = GetResourceStream(new Uri("pack://application:,,,/Assets/Sheriff.ico")).Stream)
-        using (var icon = new System.Drawing.Icon(iconStream)) _trayIcon = (System.Drawing.Icon)icon.Clone();
-        _tray = new System.Windows.Forms.NotifyIcon { Text = "Sheriff · Ctrl+Alt+Space", Icon = _trayIcon, ContextMenuStrip = menu, Visible = true };
-        _tray.MouseClick += (_, click) => { if (click.Button == System.Windows.Forms.MouseButtons.Left) Dispatcher.Invoke(Panel.ToggleFromInvocation); };
         _ = ListenAsync();
         Diagnostics.Write("READY hwnd=" + Panel.Handle);
         if (_args.Contains("--smoke-test"))
@@ -74,12 +68,12 @@ public partial class App : System.Windows.Application
             Dispatcher.BeginInvoke(async () => await UiSmokeAsync(), DispatcherPriority.ApplicationIdle);
         else
         {
-            _ = InitializeCatalogAsync();
-            if (!_args.Contains("--background")) Dispatcher.BeginInvoke(Panel.ShowPanel, DispatcherPriority.ApplicationIdle);
+            _interactiveMode = true;
+            _ = InitializeCatalogAsync(showPanel: true, refreshImmediately: false);
         }
     }
 
-    private async Task InitializeCatalogAsync()
+    private async Task InitializeCatalogAsync(bool showPanel = false, bool refreshImmediately = true)
     {
         try
         {
@@ -88,15 +82,44 @@ public partial class App : System.Windows.Application
             var config = await Task.Run(store.LoadConfig);
             Catalog = await Task.Run(() => new CatalogService(paths, store, config));
             Panel.Configure(Catalog);
-            Catalog.Changed += apps => Dispatcher.BeginInvoke(() => Panel.UpdateCatalog(apps));
-            Catalog.StatusChanged += status => Dispatcher.BeginInvoke(() => Panel.UpdateStatus(status));
+            var cacheReady = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            Catalog.Changed += apps =>
+            {
+                void ApplyCatalog()
+                {
+                    Panel.UpdateCatalog(apps);
+                    cacheReady.TrySetResult(true);
+                }
+                if (Dispatcher.CheckAccess()) ApplyCatalog();
+                else _ = Dispatcher.BeginInvoke(ApplyCatalog);
+            };
+            Catalog.StatusChanged += status =>
+            {
+                if (Dispatcher.CheckAccess()) Panel.UpdateStatus(status);
+                else _ = Dispatcher.BeginInvoke(() => Panel.UpdateStatus(status));
+            };
             if (!Panel.SetHotkey(config.Hotkey)) Diagnostics.Write("HOTKEY registration failed: " + config.Hotkey);
-            await Catalog.InitializeAsync(_shutdown.Token);
+            var initialization = Catalog.InitializeAsync(_shutdown.Token, refreshImmediately);
+            if (showPanel)
+            {
+                // Show as soon as the disk cache is applied. Usage indexing and fresh scans can finish later.
+                await Task.WhenAny(cacheReady.Task, initialization);
+                if (!cacheReady.Task.IsCompletedSuccessfully) await initialization;
+                _categoryRefreshRequested = Catalog.Apps.Count == 0;
+                Panel.ShowPanel();
+                if (_categoryRefreshRequested) Catalog.RequestRefresh();
+            }
+            await initialization;
             _shellChanges = new ShellChangeWatcher(Panel.Handle, Catalog.RequestRefresh);
             await _shellChanges.Ready;
             Diagnostics.Write("SHELL_NOTIFICATIONS registered=" + _shellChanges.IsRegistered);
         }
-        catch (Exception ex) { Diagnostics.Write("INITIALIZE " + ex); Panel.UpdateStatus("Uygulama listesi yüklenemedi. Tanılama günlüğüne bakın."); }
+        catch (Exception ex)
+        {
+            Diagnostics.Write("INITIALIZE " + ex);
+            Panel.UpdateStatus("Uygulama listesi yüklenemedi. Tanılama günlüğüne bakın.");
+            if (showPanel && !Dispatcher.HasShutdownStarted && !Panel.IsVisible) Panel.ShowPanel();
+        }
     }
 
     private async Task SaveActionAsync(Func<Task> action)
@@ -106,9 +129,50 @@ public partial class App : System.Windows.Application
         catch (Exception ex) { Diagnostics.Write("SAVE " + ex.Message); Panel.UpdateStatus("Değişiklik kaydedilemedi: " + ex.Message); }
     }
 
+    private void QueueSaveAction(Func<Task> action) => TrackPendingAction(SaveActionAsync(action));
+
+    private void TrackPendingAction(Task task)
+    {
+        lock (_pendingActionsGate) _pendingActions.Add(task);
+        _ = task.ContinueWith(completed =>
+        {
+            lock (_pendingActionsGate) _pendingActions.Remove(completed);
+        }, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+    }
+
+    private void OnCategoryOpened()
+    {
+        if (!_interactiveMode || _categoryRefreshRequested || Catalog is null) return;
+        _categoryRefreshRequested = true;
+        Catalog.RequestRefresh();
+    }
+
+    private async void OnPanelDismissed()
+    {
+        if (!_interactiveMode || _dismissalShutdownStarted) return;
+        _dismissalShutdownStarted = true;
+        NativeWindow.UnregisterShortcut(Panel.Handle);
+        Task[] pending;
+        lock (_pendingActionsGate) pending = [.. _pendingActions];
+        if (pending.Length > 0)
+        {
+            try { await Task.WhenAll(pending); }
+            catch (Exception ex) { Diagnostics.Write("PENDING ACTION " + ex.Message); }
+        }
+        if (!Dispatcher.HasShutdownStarted) Shutdown();
+    }
+
     private void LaunchApp(Sheriff.Core.AppEntry app, bool asAdministrator)
     {
-        try { AppLauncher.Launch(app, asAdministrator); Panel.HidePanel(); if (Catalog is not null) _ = Catalog.RecordLaunchAsync(app); }
+        try
+        {
+            var wasSuppressed = Panel.SuppressAutoHide;
+            Panel.SuppressAutoHide = true;
+            try { AppLauncher.Launch(app, asAdministrator); }
+            finally { Panel.SuppressAutoHide = wasSuppressed; }
+            if (Catalog is not null) TrackPendingAction(Catalog.RecordLaunchAsync(app));
+            Panel.HidePanel();
+        }
         catch (Exception ex) { Diagnostics.Write("LAUNCH " + ex.Message); Panel.UpdateStatus("Başlatılamadı: " + ex.Message); }
     }
 
@@ -163,7 +227,11 @@ public partial class App : System.Windows.Application
                 await server.WaitForConnectionAsync(_shutdown.Token).ConfigureAwait(false);
                 using var reader = new StreamReader(server);
                 var line = await reader.ReadLineAsync(_shutdown.Token).ConfigureAwait(false);
-                _ = Dispatcher.BeginInvoke(() => { if (line == "TOGGLE") Panel.ToggleFromInvocation(); else if (line == "EXIT") Shutdown(); });
+                _ = Dispatcher.BeginInvoke(() =>
+                {
+                    if (line == "TOGGLE" && !_dismissalShutdownStarted) Panel.ToggleFromInvocation();
+                    else if (line == "EXIT") Shutdown();
+                });
             }
             catch (OperationCanceledException) { break; }
             catch (IOException ex) { Diagnostics.Write("PIPE " + ex.Message); }
@@ -200,8 +268,6 @@ public partial class App : System.Windows.Application
         _shutdown.Cancel();
         Catalog?.Dispose();
         _shellChanges?.Dispose();
-        _tray?.Dispose();
-        _trayIcon?.Dispose();
         Panel.Dispose();
         Diagnostics.Write("EXIT");
         Diagnostics.Flush();

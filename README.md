@@ -28,7 +28,7 @@ This screenshot is from the real Sheriff interface running on Windows. Categorie
 
 ## Get to your apps in a keystroke
 
-Sheriff scans Start menu shortcuts and packaged Windows apps, organizes them into clear categories, and opens them from one always-ready panel. Open it from the Sheriff taskbar icon, the system tray, or the <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> shortcut.
+Sheriff discovers Start menu shortcuts and packaged Windows apps, organizes them into clear categories, and opens them from one compact panel. Launch the pinned EXE to open Sheriff; its local app cache appears first, so you can start browsing without waiting for a fresh scan.
 
 | Feature | What it does |
 | --- | --- |
@@ -37,22 +37,25 @@ Sheriff scans Start menu shortcuts and packaged Windows apps, organizes them int
 | **Hover to organize** | Hover over an app for 450 ms to reveal **Move** and **Remove from category** actions. Restore removed apps from Settings. |
 | **Drag and drop** | Move an app by dropping it on a category card or into a category’s detail view. |
 | **Smart ranking** | Usage history and pins bring frequently used apps closer. |
-| **Windows integration** | Start menu shortcuts, AppsFolder apps, a tray menu, and optional launch at Windows startup. |
+| **Windows integration** | Start menu shortcuts, Microsoft Store apps from AppsFolder, and optional launch at Windows startup. |
+| **On-demand process** | Sheriff exits when you close the panel. Its catalog and icon cache stay on disk for the next launch. |
+| **Subtle motion** | A short fade, lift, and scale animation eases the panel into view and respects Windows reduced-motion settings. |
 
 ## Quick start
 
 1. [**Download Sheriff.exe from the v1.0.0 release**](https://github.com/mustafawiped/Sheriff/releases/latest).
 2. Save the EXE in a permanent folder and run it.
-3. Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> to open the panel, then type an app name or publisher.
+3. Type an app name or publisher in the panel. Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> while Sheriff is open to hide or show it.
 4. Select an app preview to launch it, or click the empty area of a category card to open its details.
 
-> **Tip:** Click outside the panel or press <kbd>Esc</kbd> to hide it. Sheriff stays ready in the background.
+> **Tip:** Click outside the panel or press <kbd>Esc</kbd> to close Sheriff completely. The next launch reads the saved catalog immediately. Opening a category starts a fresh scan while the panel is open; an empty cache is scanned on first launch.
 
 ### Keyboard and mouse
 
 | Action | Control |
 | --- | --- |
-| Show or hide the panel | <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd>, left-click the tray icon, or run the pinned EXE |
+| Open Sheriff | Run the pinned EXE or enable **Start with Windows** in Settings |
+| Hide or show the panel | <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> while Sheriff is open |
 | Navigate results | <kbd>↑</kbd> / <kbd>↓</kbd> |
 | Launch an app | <kbd>Enter</kbd> or click its icon |
 | Close the panel | <kbd>Esc</kbd> or click another window |
@@ -103,7 +106,7 @@ Optional LLM classification is **off by default**. If you enable it in Settings 
 
 ~~~mermaid
 flowchart LR
-    User[Keyboard, tray, or taskbar] --> App[WPF panel · single window]
+    User[Launch EXE or Windows startup] --> App[WPF panel · single instance]
     App --> Core[Scanner and categorization]
     Core --> Start[Start menu shortcuts]
     Core --> Store[Windows AppsFolder]
@@ -114,12 +117,12 @@ flowchart LR
     Core -. optional app name and publisher .-> OpenAI[OpenAI Chat Completions]
 ~~~
 
-- **Sheriff.App:** .NET 8 WPF interface, single-instance startup, named pipe, global shortcut, tray, and Windows integration.
+- **Sheriff.App:** .NET 8 WPF interface, single-instance startup, named pipe, in-session global shortcut, and Windows integration.
 - **Sheriff.Core:** Windows app scanner, category rules, known apps, and usage-ranking model.
 - **Sheriff.Data:** Atomic JSON storage, DPAPI-protected API key, and SQLite usage data.
 - **Sheriff.Tests:** xUnit tests.
 
-The main window stays in memory so it is ready when you need it. Start menu <code>.lnk</code> files and Store apps are scanned in the background; icons are served from a cache. Launching a second Sheriff instance asks the running panel to show or hide instead of opening another window.
+The catalog loads from disk before the panel appears. With a populated cache, Sheriff waits until you open a category before scanning for newly installed apps; on a first launch with no cache, it starts scanning immediately. Every app in a category is listed from the catalog, and icons load as their tiles are shown. Closing the panel ends the process, so Sheriff uses no idle background memory. Launching a second Sheriff instance toggles the open panel instead of opening another window.
 
 ## Development
 

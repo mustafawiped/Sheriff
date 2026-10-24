@@ -5,9 +5,9 @@
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
       <StackPanel Margin="0,0,12,0">
         <TextBlock Text="GENEL" FontSize="11" FontWeight="SemiBold" Opacity="0.55" Margin="0,0,0,12"/>
-        <TextBlock Text="Global kısayol" Margin="0,0,0,6"/><TextBox x:Name="HotkeyBox" AutomationProperties.Name="Global kısayol"/>
-        <TextBlock Text="Örnek: Ctrl+Alt+Space veya Ctrl+Shift+F12" FontSize="11" Opacity="0.6" Margin="0,5,0,16"/>
-        <CheckBox x:Name="StartupBox" Content="Windows ile arka planda başlat" Margin="0,0,0,24"/>
+        <TextBlock Text="Sheriff açıkken global kısayol" Margin="0,0,0,6"/><TextBox x:Name="HotkeyBox" AutomationProperties.Name="Global kısayol"/>
+        <TextBlock Text="Sheriff kapatılınca arka planda çalışmaz. Örnek: Ctrl+Alt+Space veya Ctrl+Shift+F12" TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,5,0,16"/>
+        <CheckBox x:Name="StartupBox" Content="Windows ile birlikte aç (paneli göster)" Margin="0,0,0,24"/>
         <TextBlock Text="KATEGORİLER" FontSize="11" FontWeight="SemiBold" Opacity="0.55" Margin="0,0,0,12"/>
         <TextBox x:Name="CategoriesBox" AcceptsReturn="True" Height="145" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Kategoriler, her satıra bir kategori"/>
         <TextBlock Text="Her satıra bir kategori yazın. Diğer ve Gereksiz her zaman korunur." TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,6,0,24"/>

@@ -1,15 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF>
     <StartupObject>Sheriff.App.Program</StartupObject><AssemblyName>Sheriff</AssemblyName><RootNamespace>Sheriff.App</RootNamespace>
     <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
     <ApplicationIcon>Assets\Sheriff.ico</ApplicationIcon><ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.0.0</Version><Product>Sheriff</Product><Description>Hızlı Windows uygulama başlatıcı</Description>
-    <!-- WPF owns process DPI through its manifest; WinForms is used only for NotifyIcon. -->
-    <NoWarn>$(NoWarn);WFAC010</NoWarn>
+    <!-- WPF owns process DPI through its manifest. -->
     <PublishReadyToRun>true</PublishReadyToRun><PublishSingleFile>true</PublishSingleFile><SelfContained>true</SelfContained><RuntimeIdentifier>win-x64</RuntimeIdentifier><IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
-  <ItemGroup><Using Remove="System.Windows.Forms"/><Using Remove="System.Drawing"/></ItemGroup>
   <ItemGroup><Resource Include="Assets\Sheriff.ico" /></ItemGroup>
   <ItemGroup><ProjectReference Include="..\Sheriff.Core\Sheriff.Core.csproj"/><ProjectReference Include="..\Sheriff.Data\Sheriff.Data.csproj"/><PackageReference Include="WPF-UI" Version="4.3.0" /></ItemGroup>
 </Project>
