@@ -21,6 +21,7 @@ public sealed record CategorizationResult(string Category, bool IsUnclassified, 
 public sealed class AppCategorizer
 {
     private readonly KnownAppRule[] _known;
+    private readonly Dictionary<string, List<KnownAppRule>> _executables, _aumids, _publishers;
     private static readonly Regex JunkNames = new(@"\b(uninstall(?:er)?|unins\d*|kaldir|readme|help|yardim|release[\s_-]+notes|updater|redistributable|licen[cs]e|documentation)\b", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     private static readonly Regex Tokens = new(@"[\p{L}\p{N}]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     private static readonly (string Category, string[] Publishers, string[] Folders)[] Heuristics =
@@ -40,7 +41,28 @@ public sealed class AppCategorizer
         (Categories.Server, new() { ["server"] = 3, ["sunucu"] = 3, ["database"] = 3, ["hosting"] = 3, ["postgres"] = 3, ["mysql"] = 3, ["redis"] = 3, ["apache"] = 3, ["nginx"] = 3 })
     ];
 
-    public AppCategorizer(IEnumerable<KnownAppRule>? rules = null) => _known = (rules ?? LoadKnownApps()).ToArray();
+    public AppCategorizer(IEnumerable<KnownAppRule>? rules = null)
+    {
+        _known = (rules ?? LoadKnownApps()).ToArray();
+        _executables = BuildIndex(_known, rule => rule.ExeNames);
+        _aumids = BuildIndex(_known, rule => rule.Aumids);
+        _publishers = BuildIndex(_known, rule => rule.Publishers);
+    }
+
+    // Keep all matches in rule order: a disabled category must not hide a later match.
+    private static Dictionary<string, List<KnownAppRule>> BuildIndex(IEnumerable<KnownAppRule> rules, Func<KnownAppRule, string[]?> keys)
+    {
+        var index = new Dictionary<string, List<KnownAppRule>>(StringComparer.OrdinalIgnoreCase);
+        foreach (var rule in rules)
+            foreach (var key in keys(rule) ?? [])
+            {
+                if (key is null) continue;
+                var normalized = key.Trim();
+                if (!index.TryGetValue(normalized, out var matches)) index[normalized] = matches = [];
+                matches.Add(rule);
+            }
+        return index;
+    }
     public IReadOnlyList<KnownAppRule> KnownApps => _known;
     public string Categorize(AppEntry app, SheriffConfig config) => Classify(app, config).Category;
 
@@ -57,15 +79,14 @@ public sealed class AppCategorizer
 
         if (IsJunk(app)) return Match(Categories.Junk, "junk-name");
         var executable = ExecutableName(app.TargetPathOrAumid);
-        foreach (var rule in _known)
-        {
-            if (!allowed.Contains(rule.Category)) continue;
-            if (app.Source == AppSource.Store && (rule.Aumids ?? []).Any(a => Equal(a, app.TargetPathOrAumid))) return Match(rule.Category, "known-aumid:" + rule.Name);
-            if (app.Source == AppSource.StartMenu && (rule.ExeNames ?? []).Any(e => Equal(e, executable))) return Match(rule.Category, "known-exe:" + rule.Name);
-        }
-        foreach (var rule in _known)
-            if (allowed.Contains(rule.Category) && !string.IsNullOrWhiteSpace(app.Publisher) && (rule.Publishers ?? []).Any(p => Equal(p, app.Publisher)))
-                return Match(rule.Category, "known-publisher:" + rule.Name);
+        var index = app.Source == AppSource.Store ? _aumids : _executables;
+        var identity = app.Source == AppSource.Store ? app.TargetPathOrAumid?.Trim() : executable;
+        if ((app.Source == AppSource.Store || app.Source == AppSource.StartMenu) && identity is not null && index.TryGetValue(identity, out var identityMatches))
+            foreach (var rule in identityMatches)
+                if (allowed.Contains(rule.Category)) return Match(rule.Category, (app.Source == AppSource.Store ? "known-aumid:" : "known-exe:") + rule.Name);
+        if (!string.IsNullOrWhiteSpace(app.Publisher) && _publishers.TryGetValue(app.Publisher.Trim(), out var publisherMatches))
+            foreach (var rule in publisherMatches)
+                if (allowed.Contains(rule.Category)) return Match(rule.Category, "known-publisher:" + rule.Name);
 
         var publisher = Normalize(app.Publisher ?? "");
         var folders = Normalize(ParentPath(app.TargetPathOrAumid) + " " + ParentPath(app.ShortcutPath));
@@ -99,7 +120,6 @@ public sealed class AppCategorizer
         return JsonSerializer.Deserialize<KnownAppRule[]>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
     }
 
-    private static bool Equal(string? first, string? second) => string.Equals(first?.Trim(), second?.Trim(), StringComparison.OrdinalIgnoreCase);
     private static string ExecutableName(string? path)
     {
         var clean = (path ?? "").Trim().Trim('"').Replace('\\', '/');

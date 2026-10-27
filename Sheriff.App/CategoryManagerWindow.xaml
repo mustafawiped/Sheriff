@@ -1,0 +1,86 @@
+<ui:FluentWindow x:Class="Sheriff.App.CategoryManagerWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+ xmlns:local="clr-namespace:Sheriff.App"
+ Title="Kategorileri düzenle" Width="{x:Static local:InterfaceMetrics.ManagerWidth}" Height="{x:Static local:InterfaceMetrics.ManagerHeight}" MinWidth="{x:Static local:InterfaceMetrics.ManagerMinWidth}" MinHeight="{x:Static local:InterfaceMetrics.ManagerMinHeight}"
+ ResizeMode="CanResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner"
+ WindowBackdropType="None" WindowCornerPreference="Round"
+ Background="{DynamicResource ApplicationBackgroundBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+ FontFamily="Segoe UI Variable, Segoe UI" FontSize="14" SizeChanged="WindowSizeChanged">
+ <ui:FluentWindow.Resources>
+  <Style x:Key="StepTitle" TargetType="TextBlock"><Setter Property="FontSize" Value="18"/><Setter Property="FontWeight" Value="SemiBold"/></Style>
+  <Style x:Key="FieldLabel" TargetType="TextBlock"><Setter Property="FontSize" Value="12"/><Setter Property="Opacity" Value="0.7"/><Setter Property="Margin" Value="0,0,0,6"/></Style>
+ </ui:FluentWindow.Resources>
+ <Border LayoutTransform="{x:Static local:InterfaceMetrics.ContentScale}">
+ <Grid x:Name="RootLayout" Margin="24,20,24,20">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel x:Name="WindowHeading" Margin="0,0,0,20">
+   <TextBlock x:Name="WindowTitle" Text="Kategorilerinizi düzenleyin" FontSize="28" FontWeight="SemiBold"/>
+   <TextBlock x:Name="WindowIntro" Text="Soldan bir kategori seçin; uygulamaları işaretleyip istediğiniz kategoriye taşıyın." FontSize="14" Opacity="0.7" Margin="0,6,0,0" TextWrapping="Wrap"/>
+  </StackPanel>
+  <Grid Grid.Row="1">
+   <Grid.ColumnDefinitions><ColumnDefinition x:Name="SidebarColumn" Width="270"/><ColumnDefinition Width="22"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="12" Padding="14" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+    <Grid>
+     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <StackPanel Margin="4,2,4,12"><TextBlock Text="Kategoriler" FontSize="18" FontWeight="SemiBold"/><TextBlock Text="Tikli kategoriler ana sayfada görünür." FontSize="12" Opacity="0.65" TextWrapping="Wrap" Margin="0,5,0,0"/></StackPanel>
+     <ListBox x:Name="CategoryList" Grid.Row="1" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" SelectionChanged="CategorySelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Düzenlenecek kategori">
+      <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Padding" Value="8,11"/><Setter Property="Margin" Value="0,0,0,4"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/></Style></ListBox.ItemContainerStyle>
+      <ListBox.ItemTemplate><DataTemplate><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <CheckBox IsChecked="{Binding Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanToggle}" VerticalAlignment="Center" Margin="0,0,10,0" ToolTip="{Binding ToggleHint}" AutomationProperties.Name="{Binding ToggleName}"/>
+       <Border Grid.Column="1" Width="10" Height="10" CornerRadius="5" Background="{Binding Brush}" VerticalAlignment="Center" Margin="0,0,9,0"/>
+       <StackPanel Grid.Column="2"><TextBlock Text="{Binding Name}" FontSize="15" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/><TextBlock Text="{Binding CountLabel}" FontSize="12" Opacity="0.6" Margin="0,4,0,0"/></StackPanel>
+      </Grid></DataTemplate></ListBox.ItemTemplate>
+     </ListBox>
+     <StackPanel Grid.Row="2" Margin="0,14,0,0"><TextBlock Text="Yeni kategori oluştur" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBox x:Name="NewCategoryBox" MinHeight="38" MaxLength="40" AutomationProperties.Name="Yeni kategori adı" KeyDown="NewCategoryKeyDown"/><Button x:Name="AddCategoryButton" Content="＋ Kategori ekle" MinHeight="38" Margin="0,8,0,0" Click="AddCategoryClick"/></StackPanel>
+    </Grid>
+   </Border>
+   <Grid Grid.Column="2">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <Grid x:Name="SelectedHeading" Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock x:Name="SelectedCategoryTitle" FontSize="23" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock x:Name="SelectedCategoryStatus" FontSize="12" Opacity="0.65" Margin="0,4,0,0"/></StackPanel></Grid>
+    <Expander x:Name="CustomizationExpander" Grid.Row="1" Header="Kategori adını ve rengini özelleştir" IsExpanded="False" Margin="0,0,0,12" Padding="10,6" FontSize="13" Expanded="PersonalizationToggled" Collapsed="PersonalizationToggled">
+     <ScrollViewer MaxHeight="190" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="0,12,0,0">
+       <TextBlock Text="Kategori adı" Style="{StaticResource FieldLabel}"/>
+       <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBox x:Name="CategoryNameBox" MinHeight="38" MaxLength="40" AutomationProperties.Name="Kategori görünen adı" KeyDown="RenameKeyDown"/><Button x:Name="RenameCategoryButton" Grid.Column="1" Content="Adı değiştir" Margin="8,0,0,0" Padding="12,5" Click="RenameCategoryClick"/></Grid>
+       <TextBlock Text="Renk teması" Style="{StaticResource FieldLabel}" Margin="0,12,0,8"/>
+       <WrapPanel><WrapPanel x:Name="PalettePanel" VerticalAlignment="Center" Margin="0,0,14,8"/><StackPanel Orientation="Horizontal" Margin="0,0,0,8"><TextBox x:Name="ColorBox" Width="100" MinHeight="36" MaxLength="7" AutomationProperties.Name="Kategori rengi, HEX kodu" ToolTip="#RRGGBB biçiminde bir renk girin." KeyDown="ColorKeyDown"/><Button x:Name="ApplyColorButton" Content="Rengi uygula" Padding="10,5" Margin="6,0,0,0" Click="ApplyColorClick"/></StackPanel></WrapPanel>
+      </StackPanel>
+     </ScrollViewer>
+    </Expander>
+    <StackPanel x:Name="AppSelectionToolbar" Grid.Row="2" Margin="0,0,0,10">
+     <Grid Margin="0,0,0,10"><TextBlock x:Name="AppSelectionHeading" Text="1. Uygulamaları seçin" Style="{StaticResource StepTitle}" VerticalAlignment="Center"/><TextBlock x:Name="AppCountText" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" Opacity="0.65" Margin="0,0,310,0"/><StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button x:Name="SelectAllButton" Content="Görünenlerin tümünü seç" Padding="10,6" Click="SelectAllAppsClick"/><Button x:Name="ClearSelectionButton" Content="Seçimi temizle" Padding="10,6" Margin="8,0,0,0" Click="ClearAppSelectionClick"/></StackPanel></Grid>
+     <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="180"/></Grid.ColumnDefinitions>
+      <StackPanel><TextBlock Text="Uygulama veya yayıncı ara" Style="{StaticResource FieldLabel}"/><TextBox x:Name="AppSearchBox" Height="40" Padding="10,7" TextChanged="AppSearchChanged" AutomationProperties.Name="Uygulama adı veya yayıncı ara"/></StackPanel>
+      <StackPanel Grid.Column="1" Margin="12,0,0,0"><TextBlock Text="Gösterilen uygulamalar" Style="{StaticResource FieldLabel}"/><ComboBox x:Name="ScopeBox" MinHeight="40" SelectedIndex="0" SelectionChanged="ScopeChanged" AutomationProperties.Name="Uygulama listesi kapsamı"><ComboBoxItem Content="Bu kategori"/><ComboBoxItem Content="Tüm uygulamalar"/></ComboBox></StackPanel>
+     </Grid>
+    </StackPanel>
+    <Grid x:Name="ApplicationsRegion" Grid.Row="3" MinHeight="110">
+     <DataGrid x:Name="AppsGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserReorderColumns="False" HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" RowHeight="68" ColumnHeaderHeight="36" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="Transparent" EnableRowVirtualization="True" EnableColumnVirtualization="True" SelectionChanged="AppSelectionChanged" PreviewMouseLeftButtonDown="AppRowMouseDown" AutomationProperties.Name="Kategori uygulamaları">
+      <DataGrid.Columns>
+       <DataGridTemplateColumn Header="Seç" Width="48" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate><CheckBox Width="24" MinWidth="0" Padding="0" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="{Binding SelectionLabel}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+       <DataGridTemplateColumn Header="Uygulama" Width="*" MinWidth="200" SortMemberPath="Name"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+        <Grid Margin="4,0,12,0" VerticalAlignment="Center"><Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+         <Grid Width="34" Height="34" VerticalAlignment="Center"><TextBlock x:Name="AppInitial" Text="{Binding Initial}" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.6" Visibility="Collapsed"/><Image Source="{Binding Icon}" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality"/></Grid>
+         <StackPanel Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="{Binding Name}" FontSize="16" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/><TextBlock Text="{Binding Details}" FontSize="12" Opacity="0.65" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"/></StackPanel>
+        </Grid>
+        <DataTemplate.Triggers><DataTrigger Binding="{Binding Icon}" Value="{x:Null}"><Setter TargetName="AppInitial" Property="Visibility" Value="Visible"/></DataTrigger></DataTemplate.Triggers>
+       </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+       <DataGridTemplateColumn x:Name="CurrentCategoryColumn" Header="Şu anki kategori" Width="180"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock Text="{Binding CategoryName}" Margin="8,0" VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding CategoryName}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+      </DataGrid.Columns>
+     </DataGrid>
+     <StackPanel x:Name="EmptyAppsText" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" IsHitTestVisible="False" Margin="12"><TextBlock Text="Bu görünümde uygulama yok" FontSize="16" HorizontalAlignment="Center"/><TextBlock Text="Başka bir arama yapın veya “Tüm uygulamalar” seçeneğini kullanın." FontSize="12" Opacity="0.65" Margin="0,6,0,0" TextWrapping="Wrap" TextAlignment="Center"/></StackPanel>
+    </Grid>
+    <Border x:Name="TransferPanel" Grid.Row="4" Background="{DynamicResource ControlFillColorSecondaryBrush}" CornerRadius="10" Padding="14,12" Margin="0,12,0,0">
+     <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Grid Margin="0,0,0,9"><TextBlock Text="2. Hedef kategoriyi seçin" FontSize="15" FontWeight="SemiBold"/><TextBlock x:Name="AppSelectionText" HorizontalAlignment="Right" FontSize="12" Opacity="0.7" VerticalAlignment="Center"/></Grid>
+      <Grid Grid.Row="1"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><ComboBox x:Name="TargetCategoryBox" MinHeight="42" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionChanged="TargetCategoryChanged" AutomationProperties.Name="Seçilen uygulamaların hedef kategorisi"/><ui:Button x:Name="MoveAppsButton" Grid.Column="1" Content="3. Seçilenleri taşı" Appearance="Primary" Margin="10,0,0,0" Padding="16,8" MinHeight="42" Click="MoveAppsClick" IsEnabled="False"/><Button x:Name="ResetAppsButton" Grid.Column="2" Content="Otomatik kategori" Margin="8,0,0,0" Padding="12,8" Click="ResetAppsClick" IsEnabled="False" ToolTip="Seçilen uygulamaların elle yapılan kategori atamalarını kaldırır."/></Grid>
+     </Grid>
+    </Border>
+   </Grid>
+  </Grid>
+  <Grid x:Name="WindowFooter" Grid.Row="2" Margin="0,16,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Margin="0,0,20,0" VerticalAlignment="Center"><TextBlock x:Name="FeedbackText" Text="Uygulamaları seçmek için satırlara veya seçim kutularına tıklayın." TextWrapping="Wrap" FontSize="13"/><TextBlock x:Name="FooterHint" Text="Değişiklikleri uygulamak için Tamam, ardından ayarlarda Kaydet düğmesine basın." FontSize="12" Opacity="0.6" Margin="0,4,0,0" TextWrapping="Wrap"/></StackPanel><StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"><Button x:Name="CancelButton" Content="Vazgeç" IsCancel="True" MinWidth="96" MinHeight="40" Margin="0,0,10,0"/><ui:Button x:Name="AcceptButton" Content="Tamam" Appearance="Primary" MinWidth="96" MinHeight="40" Click="AcceptClick"/></StackPanel></Grid>
+ </Grid>
+ </Border>
+</ui:FluentWindow>

@@ -35,6 +35,23 @@ public sealed class RankerTests
         Assert.Equal("pinned", _ranker.RankApps([recent, pinned], Usage(new UsageSummary("recent", 40, Now)), new HashSet<string> { "pinned" }, Now)[0].Id);
     }
     [Fact]
+    public void CategoryPreviewsUseLaunchFrequencyBeforeRecency()
+    {
+        var apps = Enumerable.Range(1, 8).Select(i => App(i.ToString(), "App " + i)).Reverse();
+        var usage = Usage(Enumerable.Range(1, 8)
+            .Select(i => new UsageSummary(i.ToString(), 9 - i, Now.AddDays(-1000 + i * 100))).ToArray());
+        var preview = _ranker.RankCategoryPreviews(apps, usage).Take(7).ToArray();
+        Assert.Equal(new[] { "1", "2", "3" }, preview.Take(3).Select(a => a.Id));
+        Assert.Equal(new[] { "4", "5", "6", "7" }, preview.Skip(3).Select(a => a.Id));
+    }
+    [Fact]
+    public void CategoryPreviewTiesUseRecentLaunchThenStableName()
+    {
+        var apps = new[] { App("b", "Alpha"), App("c", "Beta"), App("a", "Alpha"), App("recent", "Zeta") };
+        var usage = Usage(new("recent", 3, Now), new("a", 3, Now.AddDays(-1)), new("b", 3, Now.AddDays(-1)), new("c", -5, Now));
+        Assert.Equal(new[] { "recent", "a", "b", "c" }, _ranker.RankCategoryPreviews(apps, usage).Select(a => a.Id));
+    }
+    [Fact]
     public void FutureTimestampCannotAmplifyLaunchCount() => Assert.Equal(12, _ranker.Score(App("a"), new("a", 12, Now.AddDays(10)), false, Now), 8);
     [Fact]
     public void MissingOrInvalidHistoryHasZeroScore()

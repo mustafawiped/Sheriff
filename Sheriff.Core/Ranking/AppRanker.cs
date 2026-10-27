@@ -29,6 +29,16 @@ public sealed class AppRanker
             .ToArray();
     }
 
+    /// <summary>Category previews represent actual launch frequency, independent of pins and score decay.</summary>
+    public IReadOnlyList<AppEntry> RankCategoryPreviews(IEnumerable<AppEntry> apps, IReadOnlyDictionary<string, UsageSummary> usage)
+    {
+        return apps.OrderByDescending(app => Math.Max(0, FindUsage(usage, app.Id)?.LaunchCount ?? 0))
+            .ThenByDescending(app => FindUsage(usage, app.Id)?.LastLaunchedAt)
+            .ThenBy(app => app.DisplayName, StringComparer.CurrentCultureIgnoreCase)
+            .ThenBy(app => app.Id, StringComparer.Ordinal)
+            .ToArray();
+    }
+
     public IReadOnlyList<string> RankCategories(IEnumerable<AppEntry> apps, IReadOnlyDictionary<string, UsageSummary> usage, IReadOnlySet<string> pinned, IEnumerable<string> configuredCategories, DateTimeOffset now)
     {
         var configured = configuredCategories.Where(c => !string.IsNullOrWhiteSpace(c)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();

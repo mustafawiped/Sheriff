@@ -30,6 +30,7 @@ public sealed class CatalogService : IDisposable
     public ShellIconCache Icons { get; }
     public IReadOnlyList<AppEntry> Apps => Volatile.Read(ref _apps);
     public IReadOnlyList<AppEntry> FrequentApps { get; private set; } = [];
+    public IReadOnlyList<AppEntry> CategoryPreviewApps { get; private set; } = [];
     public IReadOnlyList<string> CategoryOrder { get; private set; } = Categories.Defaults;
     public event Action<IReadOnlyList<AppEntry>>? Changed;
     public event Action<string>? StatusChanged;
@@ -38,7 +39,7 @@ public sealed class CatalogService : IDisposable
     {
         _paths = paths; _store = store; Config = config;
         _usage = new UsageStore(paths);
-        _llm = new LlmCategorizer(Path.Combine(paths.Root, "llm-cache.json"));
+        _llm = new LlmCategorizer(Path.Combine(paths.Root, "llm-cache.json"), categorizer: _categorizer);
         _scanRoots = (scanRoots ?? WindowsAppScanner.StartMenuDirectories).ToArray();
         Icons = new ShellIconCache(paths.Icons);
         _scanner = new WindowsAppScanner(Icons, _scanRoots, includeStore);
@@ -102,6 +103,7 @@ public sealed class CatalogService : IDisposable
             var now = DateTimeOffset.UtcNow;
             var ranked = _ranker.RankApps(classified, _summaries, Config.PinnedAppIds, now);
             var visible = ranked.Where(a => !Config.HiddenAppIds.Contains(a.Id)).ToArray();
+            CategoryPreviewApps = _ranker.RankCategoryPreviews(visible, _summaries);
             CategoryOrder = _ranker.RankCategories(visible, _summaries, Config.PinnedAppIds, Config.Categories, now);
             FrequentApps = visible.Where(a => a.Category != Categories.Junk && (_summaries.ContainsKey(a.Id) || Config.PinnedAppIds.Contains(a.Id))).Take(8).ToArray();
             Volatile.Write(ref _apps, ranked.ToArray());

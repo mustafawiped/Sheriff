@@ -17,6 +17,12 @@ public sealed class JsonStore(SheriffPaths paths)
             .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         foreach (var required in new[] { Categories.Other, Categories.Junk })
             config.Categories.Add(required);
+        CategoryCustomization.NormalizeMetadata(config);
+        config.AvailableCategories = (config.AvailableCategories ?? []).Concat(config.Categories)
+            .Concat(config.CategoryOverrides?.Values ?? Enumerable.Empty<string>())
+            .Concat(config.CategoryLabels.Keys).Concat(config.CategoryColors.Keys)
+            .Concat(Categories.Defaults).Where(c => !string.IsNullOrWhiteSpace(c))
+            .Select(c => c.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         config.CategoryOverrides = new(config.CategoryOverrides ?? [], StringComparer.OrdinalIgnoreCase);
         config.PinnedAppIds = new(config.PinnedAppIds ?? [], StringComparer.OrdinalIgnoreCase);
         config.HiddenAppIds = new(config.HiddenAppIds ?? [], StringComparer.OrdinalIgnoreCase);

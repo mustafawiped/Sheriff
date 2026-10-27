@@ -1,4 +1,5 @@
-<ui:FluentWindow x:Class="Sheriff.App.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Sheriff ayarları" Width="520" Height="650" MinHeight="420" ResizeMode="CanResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowBackdropType="None" WindowCornerPreference="Round" Background="{DynamicResource ApplicationBackgroundBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" FontFamily="Segoe UI Variable, Segoe UI">
+<ui:FluentWindow x:Class="Sheriff.App.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:local="clr-namespace:Sheriff.App" Title="Sheriff ayarları" Width="{x:Static local:InterfaceMetrics.SettingsWidth}" Height="{x:Static local:InterfaceMetrics.SettingsHeight}" MinHeight="{x:Static local:InterfaceMetrics.SettingsMinHeight}" ResizeMode="CanResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowBackdropType="None" WindowCornerPreference="Round" Background="{DynamicResource ApplicationBackgroundBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" FontFamily="Segoe UI Variable, Segoe UI">
+  <Border LayoutTransform="{x:Static local:InterfaceMetrics.ContentScale}">
   <Grid Margin="26,18,26,24">
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <TextBlock Text="Sheriff ayarları" FontSize="24" FontWeight="SemiBold" Margin="0,8,0,20"/>
@@ -9,8 +10,13 @@
         <TextBlock Text="Sheriff kapatılınca arka planda çalışmaz. Örnek: Ctrl+Alt+Space veya Ctrl+Shift+F12" TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,5,0,16"/>
         <CheckBox x:Name="StartupBox" Content="Windows ile birlikte aç (paneli göster)" Margin="0,0,0,24"/>
         <TextBlock Text="KATEGORİLER" FontSize="11" FontWeight="SemiBold" Opacity="0.55" Margin="0,0,0,12"/>
-        <TextBox x:Name="CategoriesBox" AcceptsReturn="True" Height="145" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Kategoriler, her satıra bir kategori"/>
-        <TextBlock Text="Her satıra bir kategori yazın. Diğer ve Gereksiz her zaman korunur." TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,6,0,24"/>
+        <Border Padding="16" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorSecondaryBrush}" Margin="0,0,0,24">
+          <StackPanel>
+            <TextBlock x:Name="CategorySummary" FontWeight="SemiBold" Margin="0,0,0,6"/>
+            <TextBlock Text="Uygulamaları kategorilere taşıyın, özel kategoriler oluşturun, adlarını ve renklerini düzenleyin." TextWrapping="Wrap" FontSize="12" Opacity="0.7" Margin="0,0,0,14"/>
+            <Button x:Name="EditCategoriesButton" Content="Kategorileri düzenle" HorizontalAlignment="Left" Padding="16,8" Click="EditCategoriesClick"/>
+          </StackPanel>
+        </Border>
         <TextBlock Text="İSTEĞE BAĞLI YAPAY ZEKÂ" FontSize="11" FontWeight="SemiBold" Opacity="0.55" Margin="0,0,0,12"/>
         <CheckBox x:Name="LlmBox" Content="Eşleşmeyen uygulamalar için LLM yedeğini kullan"/>
         <TextBlock Text="Yalnızca uygulama adı ve yayıncısı, aşağıdaki servise gönderilir. Varsayılan olarak kapalıdır; arka planda çalışır." TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,8,0,12"/>
@@ -27,4 +33,5 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Vazgeç" IsCancel="True" MinWidth="88" Margin="0,0,10,0"/><ui:Button Content="Kaydet" Appearance="Primary" IsDefault="True" MinWidth="88" Click="SaveClick"/></StackPanel>
     </StackPanel>
   </Grid>
+  </Border>
 </ui:FluentWindow>

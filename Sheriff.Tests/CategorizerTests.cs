@@ -53,6 +53,20 @@ public sealed class CategorizerTests
         Assert.Equal(Categories.Software, categorizer.Categorize(App(target: @"C:\Apps\editor.exe", publisher: "Vendor Inc."), new()));
     }
     [Fact]
+    public void KnownMatchesKeepRuleOrderAndSkipDisabledCategories()
+    {
+        var categorizer = new AppCategorizer([
+            new() { Name = "First", Category = Categories.Hardware, ExeNames = [" EDITOR.EXE "], Publishers = [" Vendor Inc. "] },
+            new() { Name = "Second", Category = Categories.Software, ExeNames = ["editor.exe"], Publishers = ["Vendor Inc."] }
+        ]);
+        var config = new SheriffConfig();
+        var app = App(target: @"C:\Apps\editor.exe", publisher: "vendor inc.");
+        Assert.Equal(Categories.Hardware, categorizer.Categorize(app, config));
+        config.Categories.Remove(Categories.Hardware);
+        Assert.Equal(Categories.Software, categorizer.Categorize(app, config));
+        Assert.Equal(Categories.Software, categorizer.Categorize(app with { TargetPathOrAumid = @"C:\Apps\other.exe" }, config));
+    }
+    [Fact]
     public void KnownPublisherMatchesExactly()
     {
         var categorizer = new AppCategorizer([new() { Name = "Vendor", Category = Categories.Social, Publishers = ["Example Publisher"] }]);

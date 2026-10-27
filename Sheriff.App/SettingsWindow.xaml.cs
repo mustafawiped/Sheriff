@@ -7,14 +7,16 @@ namespace Sheriff.App;
 public partial class SettingsWindow : Wpf.Ui.Controls.FluentWindow
 {
     private readonly SheriffConfig _config;
+    private readonly IReadOnlyList<AppEntry> _apps;
     public SheriffConfig Result => _config;
     public SettingsWindow(SheriffConfig config, IReadOnlyList<AppEntry> apps)
     {
         InitializeComponent();
         if (Environment.GetEnvironmentVariable("SHERIFF_UI_TEST") == "1") ShowInTaskbar = true;
-        _config = System.Text.Json.JsonSerializer.Deserialize<SheriffConfig>(System.Text.Json.JsonSerializer.Serialize(config))!;
+        _config = ConfigDraft.Clone(config);
+        _apps = apps;
         HotkeyBox.Text = config.Hotkey; StartupBox.IsChecked = config.StartWithWindows;
-        CategoriesBox.Text = string.Join(Environment.NewLine, config.Categories);
+        UpdateCategorySummary();
         LlmBox.IsChecked = config.LlmEnabled; EndpointBox.Text = config.LlmEndpoint; ModelBox.Text = config.LlmModel; ApiKeyBox.Password = config.LlmApiKey;
         EndpointBox.Text = "https://api.openai.com/v1/chat/completions";
         EndpointBox.IsReadOnly = true;
@@ -29,14 +31,25 @@ public partial class SettingsWindow : Wpf.Ui.Controls.FluentWindow
         }
         if (HiddenPanel.Children.Count == 0) HiddenPanel.Children.Add(new TextBlock { Text = "Kaldırılan uygulama yok.", Opacity = 0.6, FontSize = 12 });
     }
+    private void UpdateCategorySummary() => CategorySummary.Text = $"{_config.Categories.Count} etkin kategori · {_apps.Count} uygulama";
+
+    private void EditCategoriesClick(object sender, RoutedEventArgs e)
+    {
+        var editor = new CategoryManagerWindow(_config, _apps) { Owner = this };
+        if (editor.ShowDialog() != true) return;
+        var edited = editor.Result;
+        _config.Categories = edited.Categories;
+        _config.AvailableCategories = edited.AvailableCategories;
+        _config.CategoryOverrides = edited.CategoryOverrides;
+        _config.CategoryLabels = edited.CategoryLabels;
+        _config.CategoryColors = edited.CategoryColors;
+        UpdateCategorySummary();
+    }
+
     private void SaveClick(object sender, RoutedEventArgs e)
     {
-        var categories = CategoriesBox.Text.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Where(c => c.Length <= 40).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-        if (categories.Count == 0 || categories.Count > 30) { ErrorText.Text = "1–30 kategori girin; kategori adları en fazla 40 karakter olabilir."; return; }
-        categories.RemoveAll(c => string.Equals(c, Categories.Other, StringComparison.OrdinalIgnoreCase) || string.Equals(c, Categories.Junk, StringComparison.OrdinalIgnoreCase));
-        categories.Add(Categories.Other); categories.Add(Categories.Junk);
         if (LlmBox.IsChecked == true && (!Uri.TryCreate(EndpointBox.Text, UriKind.Absolute, out var endpoint) || endpoint.Scheme != "https")) { ErrorText.Text = "LLM için geçerli bir HTTPS API adresi girin."; return; }
-        _config.Categories = categories; _config.Hotkey = HotkeyBox.Text.Trim(); _config.StartWithWindows = StartupBox.IsChecked == true;
+        _config.Hotkey = HotkeyBox.Text.Trim(); _config.StartWithWindows = StartupBox.IsChecked == true;
         if (LlmBox.IsChecked == true && (string.IsNullOrWhiteSpace(ApiKeyBox.Password) || string.IsNullOrWhiteSpace(ModelBox.Text))) { ErrorText.Text = "LLM için API anahtarı ve model girin."; return; }
         _config.LlmEnabled = LlmBox.IsChecked == true; _config.LlmEndpoint = "https://api.openai.com/v1/chat/completions"; _config.LlmModel = ModelBox.Text.Trim(); _config.LlmApiKey = ApiKeyBox.Password.Trim();
         DialogResult = true;

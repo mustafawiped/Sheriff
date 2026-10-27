@@ -59,7 +59,7 @@ internal static class NativeWindow
         return DwmSetWindowAttribute(hwnd, 38, ref backdrop, sizeof(int)) >= 0 && !highContrast;
     }
 
-    public static void Place(Window window, nint hwnd)
+    public static void Place(Window window, nint hwnd, Size preferredSize)
     {
         GetCursorPos(out var cursor);
         var monitor = MonitorFromPoint(cursor, 2);
@@ -68,8 +68,8 @@ internal static class NativeWindow
         var dpi = 96u;
         try { if (GetDpiForMonitor(monitor, 0, out var x, out _) == 0) dpi = x; } catch (DllNotFoundException) { }
         var scale = dpi / 96d;
-        var width = Math.Min(688, (info.Work.Right - info.Work.Left) / scale - 24);
-        var height = Math.Min(680, (info.Work.Bottom - info.Work.Top) / scale - 24);
+        var width = Math.Min(preferredSize.Width, (info.Work.Right - info.Work.Left) / scale - 24);
+        var height = Math.Min(preferredSize.Height, (info.Work.Bottom - info.Work.Top) / scale - 24);
         window.Width = Math.Max(320, width); window.Height = Math.Max(280, height);
         var left = info.Work.Left + ((info.Work.Right - info.Work.Left) - window.Width * scale) / 2;
         var top = info.Work.Bottom - window.Height * scale - 12 * scale;
