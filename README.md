@@ -14,17 +14,16 @@
     &nbsp;·&nbsp;
     <a href="#privacy">Privacy</a>
   </p>
-  <img src="assets/readme/sheriff-screens.gif" width="700" alt="Sheriff’s home screen, a category detail window, and Settings shown in an animated sequence" />
-  <p><sub>Home → category details → Settings</sub></p>
+  <img src="assets/readme/sheriff-home.png" width="700" alt="Sheriff home screen with category cards and app previews" />
 </div>
 
 ---
 
 ## Take a look at Sheriff
 
-This screenshot is from the real Sheriff interface running on Windows. Categories and app counts vary depending on what is installed on each PC.
+The animation shows the home screen, a category detail window, and Settings. Categories and app counts vary depending on what is installed on each PC.
 
-![Sheriff’s home screen with square category cards and app previews](assets/readme/sheriff-overview.png)
+![Sheriff home screen, category detail window, and Settings in an animated sequence](assets/readme/sheriff-screens.gif)
 
 ## Get to your apps in a keystroke
 
