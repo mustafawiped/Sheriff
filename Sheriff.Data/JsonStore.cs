@@ -26,6 +26,7 @@ public sealed class JsonStore(SheriffPaths paths)
         config.CategoryOverrides = new(config.CategoryOverrides ?? [], StringComparer.OrdinalIgnoreCase);
         config.PinnedAppIds = new(config.PinnedAppIds ?? [], StringComparer.OrdinalIgnoreCase);
         config.HiddenAppIds = new(config.HiddenAppIds ?? [], StringComparer.OrdinalIgnoreCase);
+        config.AllowedAutoBlockedAppIds = new(config.AllowedAutoBlockedAppIds ?? [], StringComparer.OrdinalIgnoreCase);
         if (OperatingSystem.IsWindows() && !string.IsNullOrEmpty(config.LlmProtectedApiKey))
         {
             try { config.LlmApiKey = SecretProtection.Unprotect(config.LlmProtectedApiKey); }

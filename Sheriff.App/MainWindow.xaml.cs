@@ -23,14 +23,13 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private CatalogService? _catalog;
     private IReadOnlyList<AppEntry> _apps = [];
     private readonly Dictionary<string, AppTile> _tiles = new(StringComparer.OrdinalIgnoreCase);
-    private readonly HashSet<string> _collapsed = new(StringComparer.OrdinalIgnoreCase) { Categories.Junk };
     private readonly List<object> _rows = [];
     private readonly List<AppTile> _visibleTiles = [];
     private readonly Dictionary<AppTile, object> _tileRows = [];
     private readonly DispatcherTimer _hoverTimer;
     private readonly DispatcherTimer _animationCacheReleaseTimer;
+    private readonly DispatcherTimer _searchRefreshTimer;
     private AppTile? _hoverCandidate;
-    private string? _activeCategory;
     private int _displayedAppCount, _categoryCardCount;
     private int _selection = -1;
     private readonly Guid _dragSession = Guid.NewGuid();
@@ -51,8 +50,8 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     public bool SuppressAutoHide { get; set; }
     public int VisibleAppCount => _displayedAppCount;
     public int CatalogRowCount => _rows.Count;
-    public bool CategoryOverviewVisible => _activeCategory is null;
-    private ListBox ActiveList => _activeCategory is null ? TileList : DetailList;
+    public bool CategoryOverviewVisible => true;
+    private ListBox ActiveList => TileList;
     public int CategoryCardCount => _categoryCardCount;
     public double LastShowRenderMs { get; private set; } = double.NaN;
     public bool BackdropEnabled { get; private set; }
@@ -66,6 +65,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     public event Action<AppEntry>? LocationRequested;
     public event Action? SettingsRequested;
     public event Action? CategoryOpened;
+    public event Action<string>? CategoryRequested;
     public event Action? Dismissed;
 
     public MainWindow()
@@ -76,6 +76,8 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         _hoverTimer.Tick += OnHoverTimerTick;
         _animationCacheReleaseTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(180) };
         _animationCacheReleaseTimer.Tick += OnAnimationCacheReleaseTick;
+        _searchRefreshTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(110) };
+        _searchRefreshTimer.Tick += (_, _) => { _searchRefreshTimer.Stop(); RebuildRows(); };
         _contentFade.Freeze(); _contentSlide.Freeze(); _contentScaleX.Freeze(); _contentScaleY.Freeze();
         _viewReady = true;
         RebuildRows(); UpdateAnimationPreference();
@@ -194,121 +196,64 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         ClearSelection();
         var search = SearchBox.Text.Trim();
         SearchPlaceholder.Visibility = search.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
-        var allMatching = _apps.Where(a => _catalog?.Config.HiddenAppIds.Contains(a.Id) != true)
+        var allMatching = _apps.Where(a => _catalog is null || (!(_catalog.Config.HiddenAppIds.Contains(a.Id)) && !AutoBlockPolicy.IsBlocked(a, _catalog.Config)))
             .Where(a => search.Length == 0 || Matches(a.DisplayName, search) || Matches(a.Publisher, search) || Matches(a.Description, search)).ToArray();
-        var matching = _activeCategory is null ? allMatching : allMatching.Where(a => a.Category.Equals(_activeCategory, StringComparison.OrdinalIgnoreCase)).ToArray();
+        var matching = allMatching;
         _displayedAppCount = matching.Length;
-        FrequentItems.ItemsSource = null;
         FrequentSection.Visibility = Visibility.Collapsed;
-        CategoryNavigation.Visibility = Visibility.Collapsed;
-        CategoryOverlay.Visibility = _activeCategory is null ? Visibility.Collapsed : Visibility.Visible;
-        DialogTitle.Text = _activeCategory is null ? string.Empty : DisplayCategory(_activeCategory);
-        CategoryTitle.Text = DialogTitle.Text;
-        if (_activeCategory is not null && _catalog is not null && CategoryCustomization.GetColor(_catalog.Config, _activeCategory) is { } categoryColor)
-        {
-            CategoryDialog.Background = CatalogCategoryCard.CreateSurfaceBrush(categoryColor);
-            CategoryDialog.BorderBrush = CatalogCategoryCard.CreateOutlineBrush(categoryColor);
-        }
-        else
-        {
-            CategoryDialog.SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
-            CategoryDialog.SetResourceReference(BorderBrushProperty, "ControlStrokeColorDefaultBrush");
-        }
         _rows.Clear(); _visibleTiles.Clear(); _tileRows.Clear();
         _categoryCardCount = 0;
         var order = (_catalog?.CategoryOrder ?? Categories.Defaults).Select((name, index) => (name, index)).ToDictionary(x => x.name, x => x.index, StringComparer.OrdinalIgnoreCase);
         var groups = matching.GroupBy(a => a.Category).ToDictionary(g => g.Key, g => g.ToArray(), StringComparer.OrdinalIgnoreCase);
-        var names = _activeCategory is not null
-            ? new[] { _activeCategory }
-            : search.Length == 0 ? groups.Keys.Concat(_catalog?.Config.Categories ?? [.. Categories.Defaults]).Distinct(StringComparer.OrdinalIgnoreCase) : groups.Keys;
+        var names = search.Length == 0 ? groups.Keys.Concat(_catalog?.Config.Categories ?? [.. Categories.Defaults]).Distinct(StringComparer.OrdinalIgnoreCase) : groups.Keys;
         var orderedNames = names.Where(n => search.Length == 0 || groups.ContainsKey(n)).OrderBy(n => n == Categories.Junk ? int.MaxValue : n == Categories.Other ? int.MaxValue - 1 : order.GetValueOrDefault(n, int.MaxValue - 2)).ToArray();
-        if (_activeCategory is null)
+        var cards = orderedNames.Select(name =>
         {
-            var cards = orderedNames.Select(name =>
+            var group = groups.GetValueOrDefault(name, []);
+            var memberIds = group.Select(a => a.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var ranked = _catalog?.CategoryPreviewApps.Where(a => a.Category.Equals(name, StringComparison.OrdinalIgnoreCase)
+                && memberIds.Contains(a.Id)).ToArray();
+            var previewApps = ranked is { Length: > 0 } ? ranked : group;
+            AppTile[] previews = name.Equals(Categories.Junk, StringComparison.OrdinalIgnoreCase) ? [] : previewApps.Take(7).Select(a => _tiles[a.Id]).ToArray();
+            return new CatalogCategoryCard(name, group.Length, previews, DisplayCategory(name), _catalog is null ? null : CategoryCustomization.GetColor(_catalog.Config, name));
+        }).ToArray();
+        _categoryCardCount = cards.Length;
+        foreach (var chunk in cards.Chunk(3))
+        {
+            var row = new CatalogCategoryRow(chunk);
+            _rows.Add(row);
+            foreach (var card in row.Cards)
+            foreach (var tile in card.PrimaryPreviewTiles)
             {
-                var group = groups.GetValueOrDefault(name, []);
-                var memberIds = group.Select(a => a.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
-                var ranked = _catalog?.CategoryPreviewApps.Where(a => a.Category.Equals(name, StringComparison.OrdinalIgnoreCase)
-                    && memberIds.Contains(a.Id)).ToArray();
-                var previewApps = ranked is { Length: > 0 } ? ranked : group;
-                AppTile[] previews = name.Equals(Categories.Junk, StringComparison.OrdinalIgnoreCase) ? [] : previewApps.Take(7).Select(a => _tiles[a.Id]).ToArray();
-                return new CatalogCategoryCard(name, group.Length, previews, DisplayCategory(name), _catalog is null ? null : CategoryCustomization.GetColor(_catalog.Config, name));
-            }).ToArray();
-            _categoryCardCount = cards.Length;
-            foreach (var chunk in cards.Chunk(3))
-            {
-                var row = new CatalogCategoryRow(chunk);
-                _rows.Add(row);
-                foreach (var card in row.Cards)
-                foreach (var tile in card.PrimaryPreviewTiles)
-                {
-                    _visibleTiles.Add(tile);
-                    _tileRows[tile] = row;
-                }
+                _visibleTiles.Add(tile);
+                _tileRows[tile] = row;
             }
         }
-        else
-        {
-            foreach (var name in orderedNames)
-            {
-                var group = groups.GetValueOrDefault(name, []);
-                var collapsed = name == Categories.Junk && search.Length == 0 && _collapsed.Contains(name);
-                if (name == Categories.Junk) _rows.Add(new CatalogHeader(name, group.Length, collapsed, DisplayCategory(name)));
-                if (collapsed) continue;
-                foreach (var chunk in group.Chunk(4))
-                {
-                    var row = new CatalogTileRow(chunk.Select(a => _tiles[a.Id]).ToArray());
-                    _rows.Add(row);
-                    foreach (var tile in row.Tiles) { _visibleTiles.Add(tile); _tileRows[tile] = row; }
-                }
-            }
-        }
-        var list = ActiveList;
-        list.ItemsSource = null;
-        list.ItemsSource = _rows.ToArray();
-        EmptyState.Visibility = _activeCategory is null && _categoryCardCount == 0 ? Visibility.Visible : Visibility.Collapsed;
-        DetailEmptyState.Visibility = _activeCategory is not null && matching.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        TileList.ItemsSource = _rows.ToArray();
+        EmptyState.Visibility = _categoryCardCount == 0 ? Visibility.Visible : Visibility.Collapsed;
         EmptyTitle.Text = search.Length == 0 ? "Henüz uygulama yok" : "Eşleşen uygulama yok";
         EmptyDescription.Text = search.Length == 0 ? "Kurulu uygulamalar ilk tarama tamamlanınca burada görünecek." : "Başka bir ad veya yayıncı deneyin.";
-        StatusText.Text = search.Length > 0 ? $"{matching.Length} sonuç" : _activeCategory is null ? $"{_categoryCardCount} kategori · {matching.Length} uygulama" : $"{matching.Length} uygulama · Hazır";
+        StatusText.Text = search.Length > 0 ? $"{matching.Length} sonuç" : $"{_categoryCardCount} kategori · {matching.Length} uygulama";
     }
     private string DisplayCategory(string name) => _catalog is null ? name : CategoryCustomization.GetDisplayName(_catalog.Config, name);
     private static bool Matches(string text, string search) => CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, search, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
-    private void OnSearchChanged(object sender, TextChangedEventArgs e) => RebuildRows();
-    private void OnCategoryClick(object sender, RoutedEventArgs e)
+    private void OnSearchChanged(object sender, TextChangedEventArgs e)
     {
-        if (((FrameworkElement)sender).DataContext is not CatalogHeader header) return;
-        if (!_collapsed.Add(header.Name)) _collapsed.Remove(header.Name);
-        RebuildRows();
+        if (!_viewReady) return;
+        SearchPlaceholder.Visibility = SearchBox.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        if (!IsVisible) { _searchRefreshTimer.Stop(); RebuildRows(); return; }
+        _searchRefreshTimer.Stop();
+        _searchRefreshTimer.Start();
     }
     public void OpenCategory(string category)
     {
         if (string.IsNullOrWhiteSpace(category)) return;
-        _activeCategory = category;
-        RebuildRows();
-        FindChild<ScrollViewer>(DetailList)?.ScrollToTop();
-        AnimateCategoryDialog();
         CategoryOpened?.Invoke();
+        CategoryRequested?.Invoke(category);
     }
     public void ShowAllCategories()
     {
-        _activeCategory = null;
-        RebuildRows();
         FindChild<ScrollViewer>(TileList)?.ScrollToTop();
-    }
-    private void AnimateCategoryDialog()
-    {
-        CategoryDialog.BeginAnimation(OpacityProperty, null);
-        CategoryDialogScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-        CategoryDialogScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
-        CategoryDialogOffset.BeginAnimation(TranslateTransform.YProperty, null);
-        if (!_animateContent) return;
-        var duration = TimeSpan.FromMilliseconds(160);
-        var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-        CategoryDialog.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, duration) { EasingFunction = ease });
-        CategoryDialogScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.94, 1, duration) { EasingFunction = ease });
-        CategoryDialogScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.94, 1, duration) { EasingFunction = ease });
-        CategoryDialogOffset.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(10, 0, duration) { EasingFunction = ease });
     }
     private void OnCategoryCardMouseEnter(object sender, MouseEventArgs e)
     {
@@ -324,7 +269,6 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     {
         if (sender is FrameworkElement card) card.BeginAnimation(OpacityProperty, null);
     }
-    private void OnCategoryOverlayBackdropClick(object sender, MouseButtonEventArgs e) => ShowAllCategories();
     private void OnOverflowPreviewClick(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement { DataContext: CatalogCategoryCard card }) OpenCategory(card.Name);
@@ -361,11 +305,14 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         button?.RaiseEvent(new RoutedEventArgs(Button.ClickEvent, button));
         return button is not null;
     }
-    private void OnBackToCategories(object sender, RoutedEventArgs e) => ShowAllCategories();
     private void OnCategoryCardClick(object sender, MouseButtonEventArgs e)
     {
-        if (e.OriginalSource is DependencyObject source && FindAncestor<Button>(source) is { DataContext: AppTile }) return;
-        if (((FrameworkElement)sender).DataContext is CatalogCategoryCard card) OpenCategory(card.Name);
+        if (e.OriginalSource is DependencyObject source && FindAncestor<Button>(source) is not null) return;
+        if (((FrameworkElement)sender).DataContext is CatalogCategoryCard card)
+        {
+            e.Handled = true;
+            OpenCategory(card.Name);
+        }
     }
     private void OnCategoryCardKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
@@ -513,7 +460,6 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     }
     private static string? DropCategory(object sender) => ((FrameworkElement)sender).DataContext switch
     {
-        CatalogHeader header => header.Name,
         CatalogTileRow row => row.Category,
         CatalogCategoryCard card => card.Name,
         _ => null
@@ -621,7 +567,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
     private nint WindowMessage(nint hwnd, int message, nint wParam, nint lParam, ref bool handled) { if (message == 0x0312) { Toggle(); handled = true; } return 0; }
     private void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
-        if (e.Key == Key.Escape) { if (_activeCategory is not null) ShowAllCategories(); else HidePanel(); e.Handled = true; return; }
+        if (e.Key == Key.Escape) { HidePanel(); e.Handled = true; return; }
         if (e.Key == Key.Enter)
         {
             if (Keyboard.FocusedElement is FrameworkElement { DataContext: CatalogCategoryCard }) return;
@@ -673,6 +619,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow, IDisposable
         if (_source is not null) _source.RemoveHook(WindowMessage);
         _hoverTimer.Stop();
         _hoverTimer.Tick -= OnHoverTimerTick;
+        _searchRefreshTimer.Stop();
         if (_rendered is not null) CompositionTarget.Rendering -= _rendered;
         ApplicationThemeManager.Changed -= OnApplicationThemeChanged;
         SystemParameters.StaticPropertyChanged -= OnSystemParametersChanged;

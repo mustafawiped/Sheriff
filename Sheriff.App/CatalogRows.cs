@@ -17,12 +17,6 @@ public sealed class AppTile(AppEntry entry, ShellIconCache? icons, bool pinned) 
     public bool ShowHoverActions { get => _showHoverActions; set { if (_showHoverActions == value) return; _showHoverActions = value; PropertyChanged?.Invoke(this, new(nameof(ShowHoverActions))); } }
     public event PropertyChangedEventHandler? PropertyChanged;
 }
-public sealed record CatalogHeader(string Name, int Count, bool Collapsed, string? Label = null)
-{
-    public string DisplayName => Label ?? Name;
-    public string Chevron => Collapsed ? "\uE70D" : "\uE70E";
-    public string AccessibleName => $"{DisplayName}, {Count} uygulama, {(Collapsed ? "genişlet" : "daralt")}";
-}
 public sealed record CatalogTileRow(IReadOnlyList<AppTile> Tiles)
 {
     public string Category => Tiles.FirstOrDefault()?.Entry.Category ?? Categories.Other;

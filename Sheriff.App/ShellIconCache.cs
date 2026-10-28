@@ -17,7 +17,7 @@ namespace Sheriff.App;
 public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
 {
     private const int MaxInMemoryImages = 48;
-    private const int MaxIconDecodeWidth = 64;
+    private const int MaxIconDecodeWidth = 128;
     private readonly object _imageGate = new();
     private readonly Dictionary<string, LinkedListNode<CachedIcon>> _images = new(StringComparer.OrdinalIgnoreCase);
     private readonly LinkedList<CachedIcon> _imageLru = new();
@@ -59,7 +59,7 @@ public sealed class ShellIconCache(string iconsDirectory) : IAppIconCache
         Directory.CreateDirectory(iconsDirectory);
         var targetStamp = app.Source == AppSource.StartMenu && File.Exists(app.TargetPathOrAumid)
             ? File.GetLastWriteTimeUtc(app.TargetPathOrAumid).Ticks : 0;
-        var stamp = $"{app.Id}\n{parsingName}\n{iconLocation}\n{modifiedAt.UtcTicks}\n{targetStamp}";
+        var stamp = $"icon-resolution:{MaxIconDecodeWidth}\n{app.Id}\n{parsingName}\n{iconLocation}\n{modifiedAt.UtcTicks}\n{targetStamp}";
         var fingerprint = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(stamp)))[..16].ToLowerInvariant();
         var path = Path.Combine(iconsDirectory, app.Id + "-" + fingerprint + ".png");
         if (File.Exists(path)) { Interlocked.Increment(ref _diskHitCount); return path; }

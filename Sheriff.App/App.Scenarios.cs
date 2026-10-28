@@ -63,18 +63,23 @@ public partial class App
             firstCard.RaiseEvent(new System.Windows.Input.MouseEventArgs(System.Windows.Input.Mouse.PrimaryDevice, 0) { RoutedEvent = System.Windows.Input.Mouse.MouseLeaveEvent });
             await Task.Delay(160);
             var previewOrder = Catalog.CategoryPreviewApps.Where(a => a.Category == Categories.Software).Take(7).Select(a => a.Id)
-                .SequenceEqual(Enumerable.Range(1, 7).Select(i => "ui-software-" + i));
+                .SequenceEqual(Enumerable.Range(1, 8).Where(i => i != 7).Select(i => "ui-software-" + i));
             RenderPanel("ui-overview.png");
             var layout = SmokePreviewLayout();
-            var overview = Panel.CategoryOverviewVisible && Panel.CategoryCardCount == Categories.Defaults.Length && Panel.VisibleAppCount == sampleApps.Length;
+            var expectedVisible = sampleApps.Count(app => !AutoBlockPolicy.IsBlocked(app, config));
+            var overview = Panel.CategoryOverviewVisible && Panel.CategoryCardCount == Categories.Defaults.Length && Panel.VisibleAppCount == expectedVisible;
 
-            var overflow = SmokeVisuals<System.Windows.Controls.Button>((FrameworkElement)Panel.Content)
-                .First(button => button.DataContext is CatalogCategoryCard { Name: Categories.Software } card
-                    && System.Windows.Automation.AutomationProperties.GetName(button) == card.OverflowAccessibleName);
-            overflow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, overflow));
-            var detail = !Panel.CategoryOverviewVisible && Panel.VisibleAppCount == 8;
-            Panel.UpdateLayout();
-            RenderPanel("ui-category-detail.png");
+            Panel.CategoryRequested -= ShowCategoryDetail;
+            Panel.OpenCategory(Categories.Software);
+            var detailWindow = new CategoryDetailWindow(Categories.Software, config, Catalog.Apps, Catalog.Icons) { Owner = Panel };
+            detailWindow.Loaded += (_, _) => Dispatcher.BeginInvoke(() =>
+            {
+                detailWindow.UpdateLayout();
+                RenderWindow(detailWindow, "ui-category-detail.png");
+                detailWindow.Close();
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            detailWindow.ShowDialog();
+            var detail = ((System.Windows.Controls.ListBox)detailWindow.FindName("AppRows")).Items.Count == 2;
             var hoverStarted = Panel.BeginHoverDelayForSmoke("ui-software-1");
             await Task.Delay(550);
             var hoverActions = hoverStarted && Panel.HoverActionsVisibleForSmoke("ui-software-1");
@@ -154,24 +159,21 @@ public partial class App
                 scope.SelectedIndex = 1;
                 search.Text = "Not Defteri";
                 checks["search"] = grid.Items.Count == 1;
-                search.Clear();
-                SmokeClick(editor, "SelectAllButton");
-                checks["selectAllVisible"] = grid.SelectedItems.Count == grid.Items.Count;
-                SmokeClick(editor, "ClearSelectionButton");
-                checks["clearSelection"] = grid.SelectedItems.Count == 0;
-                grid.SelectedItems.Add(grid.Items[0]);
-                grid.SelectedItems.Add(grid.Items[1]);
+                ((System.Windows.Controls.ComboBox)editor.FindName("TargetCategoryBox")).SelectedValue = "Odak";
                 grid.UpdateLayout();
-                var firstRow = grid.ItemContainerGenerator.ContainerFromIndex(0) as System.Windows.Controls.DataGridRow;
-                var checkbox = firstRow is null ? null : SmokeVisuals<System.Windows.Controls.CheckBox>(firstRow).FirstOrDefault();
-                checks["selectionCheckboxSync"] = checkbox?.IsChecked == true;
+                var singleRow = grid.ItemContainerGenerator.ContainerFromIndex(0) as System.Windows.Controls.DataGridRow;
+                var checkbox = singleRow is null ? null : SmokeVisuals<System.Windows.Controls.CheckBox>(singleRow).FirstOrDefault();
+                checks["membershipInitiallyUnchecked"] = checkbox?.IsChecked == false;
                 if (checkbox is not null)
                 {
-                    checkbox.IsChecked = false;
-                    checks["checkboxDeselect"] = grid.SelectedItems.Count == 1;
                     checkbox.IsChecked = true;
-                    checks["checkboxReselect"] = grid.SelectedItems.Count == 2;
+                    checks["membershipAddsImmediately"] = editor.Result.CategoryOverrides.Values.Contains("Odak");
+                    checkbox.IsChecked = false;
+                    checks["membershipRemovesImmediately"] = editor.Result.CategoryOverrides.Values.Contains(Categories.Other);
                 }
+                search.Clear();
+                grid.SelectedItems.Add(grid.Items[0]);
+                grid.SelectedItems.Add(grid.Items[1]);
                 ((System.Windows.Controls.ComboBox)editor.FindName("TargetCategoryBox")).SelectedValue = "Odak";
                 SmokeClick(editor, "MoveAppsButton");
                 checks["batchAssignment"] = editor.Result.CategoryOverrides.Values.Count(id => id == "Odak") == 2;

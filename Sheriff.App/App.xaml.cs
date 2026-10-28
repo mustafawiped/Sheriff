@@ -34,6 +34,7 @@ public partial class App : System.Windows.Application
         if (Environment.GetEnvironmentVariable("SHERIFF_UI_TEST") == "1") { Panel.ShowInTaskbar = true; Panel.SuppressAutoHide = true; }
         Panel.LaunchRequested += LaunchApp;
         Panel.CategoryOpened += OnCategoryOpened;
+        Panel.CategoryRequested += ShowCategoryDetail;
         Panel.Dismissed += OnPanelDismissed;
         Panel.LocationRequested += app => { try { AppLauncher.OpenLocation(app); } catch (Exception ex) { Panel.UpdateStatus(ex.Message); } };
         Panel.SettingsRequested += ShowSettings;
@@ -145,6 +146,46 @@ public partial class App : System.Windows.Application
         if (!_interactiveMode || _categoryRefreshRequested || Catalog is null) return;
         _categoryRefreshRequested = true;
         Catalog.RequestRefresh();
+    }
+
+    private void ShowCategoryDetail(string categoryId)
+    {
+        if (Catalog is null) return;
+        if (!Panel.IsVisible) Panel.ShowPanel();
+        var wasSuppressed = Panel.SuppressAutoHide;
+        Panel.SuppressAutoHide = true;
+        CategoryDetailWindow? window = null;
+        Action<IReadOnlyList<Sheriff.Core.AppEntry>>? catalogChanged = null;
+        try
+        {
+            window = new CategoryDetailWindow(categoryId, Catalog.Config, Catalog.Apps, Catalog.Icons) { Owner = Panel };
+            catalogChanged = apps =>
+            {
+                _ = Dispatcher.BeginInvoke(() =>
+                {
+                    if (window.IsVisible && Catalog is not null) window.UpdateApps(apps, Catalog.Config);
+                });
+            };
+            Catalog.Changed += catalogChanged;
+            window.PinRequested += app => QueueSaveAction(() => Catalog.TogglePinAsync(app));
+            window.HideRequested += app => QueueSaveAction(() => Catalog.HideAsync(app));
+            window.CategoryChangeRequested += (app, target) => QueueSaveAction(() => Catalog.AssignCategoryAsync(app, target));
+            window.CategoryResetRequested += app => QueueSaveAction(() => Catalog.ResetCategoryAsync(app));
+            window.LocationRequested += app => { try { AppLauncher.OpenLocation(app); } catch (Exception ex) { Panel.UpdateStatus(ex.Message); } };
+            window.ShowDialog();
+        }
+        catch (Exception ex)
+        {
+            Diagnostics.Write("CATEGORY_DETAIL " + ex);
+            Panel.UpdateStatus("Kategori açılamadı: " + ex.Message);
+        }
+        finally
+        {
+            if (catalogChanged is not null) Catalog.Changed -= catalogChanged;
+            Panel.ShowAllCategories();
+            Panel.SuppressAutoHide = wasSuppressed;
+        }
+        if (window?.LaunchEntry is { } app) LaunchApp(app, window.LaunchAsAdministrator);
     }
 
     private async void OnPanelDismissed()

@@ -14,6 +14,7 @@ internal static class ConfigDraft
         draft.CategoryColors = new(draft.CategoryColors, StringComparer.OrdinalIgnoreCase);
         draft.PinnedAppIds = new(draft.PinnedAppIds, StringComparer.OrdinalIgnoreCase);
         draft.HiddenAppIds = new(draft.HiddenAppIds, StringComparer.OrdinalIgnoreCase);
+        draft.AllowedAutoBlockedAppIds = new(draft.AllowedAutoBlockedAppIds, StringComparer.OrdinalIgnoreCase);
         draft.LlmApiKey = source.LlmApiKey;
         return draft;
     }

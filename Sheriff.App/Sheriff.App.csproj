@@ -4,7 +4,7 @@
     <StartupObject>Sheriff.App.Program</StartupObject><AssemblyName>Sheriff</AssemblyName><RootNamespace>Sheriff.App</RootNamespace>
     <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
     <ApplicationIcon>Assets\Sheriff.ico</ApplicationIcon><ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.0.0</Version><Product>Sheriff</Product><Description>Hızlı Windows uygulama başlatıcı</Description>
+    <Version>1.1.0</Version><Product>Sheriff</Product><Description>Hızlı Windows uygulama başlatıcı</Description>
     <!-- WPF owns process DPI through its manifest. -->
     <PublishReadyToRun>true</PublishReadyToRun><PublishSingleFile>true</PublishSingleFile><SelfContained>true</SelfContained><RuntimeIdentifier>win-x64</RuntimeIdentifier><IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>

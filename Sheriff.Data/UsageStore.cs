@@ -72,6 +72,19 @@ public sealed class UsageStore
         return result;
     }
 
+    public UsageSummary? LoadSummary(string appId)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(appId);
+        Initialize();
+        using var connection = Open();
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(*), MAX(launched_at) FROM launch_events WHERE app_id = $app;";
+        command.Parameters.AddWithValue("$app", appId);
+        using var reader = command.ExecuteReader();
+        if (!reader.Read() || reader.IsDBNull(1)) return null;
+        return new UsageSummary(appId, reader.GetInt64(0), DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64(1)));
+    }
+
     private SqliteConnection Open()
     {
         var connection = new SqliteConnection(_connectionString);

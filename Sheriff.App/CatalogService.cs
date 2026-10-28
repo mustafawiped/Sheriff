@@ -102,7 +102,7 @@ public sealed class CatalogService : IDisposable
                 }).ToArray();
             var now = DateTimeOffset.UtcNow;
             var ranked = _ranker.RankApps(classified, _summaries, Config.PinnedAppIds, now);
-            var visible = ranked.Where(a => !Config.HiddenAppIds.Contains(a.Id)).ToArray();
+            var visible = ranked.Where(a => !Config.HiddenAppIds.Contains(a.Id) && !AutoBlockPolicy.IsBlocked(a, Config)).ToArray();
             CategoryPreviewApps = _ranker.RankCategoryPreviews(visible, _summaries);
             CategoryOrder = _ranker.RankCategories(visible, _summaries, Config.PinnedAppIds, Config.Categories, now);
             FrequentApps = visible.Where(a => a.Category != Categories.Junk && (_summaries.ContainsKey(a.Id) || Config.PinnedAppIds.Contains(a.Id))).Take(8).ToArray();
@@ -118,11 +118,15 @@ public sealed class CatalogService : IDisposable
             await Task.Run(() =>
             {
                 _usage.RecordLaunch(app.Id);
-                var summary = _usage.LoadSummaries();
-                lock (_configGate) _summaries = summary;
+                var summary = _usage.LoadSummary(app.Id);
+                lock (_configGate)
+                {
+                    var next = new Dictionary<string, UsageSummary>(_summaries, StringComparer.OrdinalIgnoreCase);
+                    if (summary is null) next.Remove(app.Id); else next[app.Id] = summary;
+                    _summaries = next;
+                }
             });
             lock (_configGate) Publish(Apps.Select(a => a.Id == app.Id ? a with { IsNew = false } : a));
-            await Task.Run(() => _store.SaveApps(Apps));
         }
         catch (Exception ex) { Diagnostics.Write("USAGE " + ex.Message); }
     }
@@ -163,7 +167,7 @@ public sealed class CatalogService : IDisposable
             version = _configVersion;
             snapshot = new SheriffConfig { Categories = [.. Config.Categories], CategoryOverrides = new(Config.CategoryOverrides, StringComparer.OrdinalIgnoreCase),
                 LlmEnabled = true, LlmApiKey = Config.LlmApiKey, LlmEndpoint = Config.LlmEndpoint, LlmModel = Config.LlmModel };
-            candidates = Apps.Where(a => !Config.HiddenAppIds.Contains(a.Id) && !_llmAssignments.ContainsKey(LlmKey(a)) && _categorizer.Classify(a, Config).IsUnclassified).ToArray();
+            candidates = Apps.Where(a => !Config.HiddenAppIds.Contains(a.Id) && !AutoBlockPolicy.IsBlocked(a, Config) && !_llmAssignments.ContainsKey(LlmKey(a)) && _categorizer.Classify(a, Config).IsUnclassified).ToArray();
         }
         _ = Task.Run(async () =>
         {

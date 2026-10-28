@@ -65,6 +65,20 @@ public static class CategoryCustomization
         config.CategoryOverrides[appId] = canonical;
     }
 
+    /// <summary>Sets whether an app belongs to one exclusive category.</summary>
+    public static void SetMembership(SheriffConfig config, string appId, string id, bool included, string? currentCategory = null)
+    {
+        ArgumentNullException.ThrowIfNull(config);
+        ArgumentException.ThrowIfNullOrWhiteSpace(appId);
+        var canonical = RequireCategory(config, id);
+        if (included) { AssignCategory(config, appId, canonical); config.HiddenAppIds.Remove(appId); return; }
+        if (!config.CategoryOverrides.TryGetValue(appId, out var current)) current = currentCategory;
+        if (current is null) return;
+        if (!string.Equals(current, canonical, StringComparison.OrdinalIgnoreCase)) return;
+        config.CategoryOverrides = CopyMetadata(config.CategoryOverrides);
+        config.CategoryOverrides[appId] = string.Equals(canonical, Categories.Other, StringComparison.OrdinalIgnoreCase) ? Categories.Junk : Categories.Other;
+    }
+
     /// <summary>Accepts old or hand-edited JSON while discarding unusable presentation values.</summary>
     public static void NormalizeMetadata(SheriffConfig config)
     {

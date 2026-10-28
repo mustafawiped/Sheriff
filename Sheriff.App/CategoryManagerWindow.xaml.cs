@@ -80,8 +80,8 @@ public partial class CategoryManagerWindow : Wpf.Ui.Controls.FluentWindow
         AppsGrid.RowHeight = compact ? 64 : 68;
         AppsGrid.ColumnHeaderHeight = compact ? 32 : 36;
         AppSelectionHeading.FontSize = compact ? 16 : 18;
-        SelectAllButton.Content = compact ? "Tümünü seç" : "Görünenlerin tümünü seç";
-        ClearSelectionButton.Content = compact ? "Temizle" : "Seçimi temizle";
+        SelectAllButton.Content = compact ? "Görünenleri ekle" : "Görünenleri kategoriye ekle";
+        ClearSelectionButton.Content = compact ? "Görünenleri çıkar" : "Görünenleri kategoriden çıkar";
         AppCountText.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
         SidebarColumn.Width = new GridLength(Width / InterfaceMetrics.Scale < 1050 ? 220 : 270);
         CurrentCategoryColumn.Width = new DataGridLength(Width / InterfaceMetrics.Scale < 1050 ? 140 : 180);
@@ -256,33 +256,57 @@ public partial class CategoryManagerWindow : Wpf.Ui.Controls.FluentWindow
         if (!_ready) return;
         var query = AppSearchBox.Text.Trim();
         var all = ScopeBox.SelectedIndex == 1;
-        var rows = _apps.Select(app => new { App = app, Category = EffectiveCategory(app) })
+        var rows = _apps.Where(app => !AutoBlockPolicy.IsBlocked(app, _draft)).Select(app => new { App = app, Category = EffectiveCategory(app) })
             .Where(item => all || _selected is not null && string.Equals(item.Category, _selected.Id, StringComparison.OrdinalIgnoreCase))
             .Where(item => query.Length == 0 || item.App.DisplayName.Contains(query, StringComparison.CurrentCultureIgnoreCase)
                 || item.App.Publisher.Contains(query, StringComparison.CurrentCultureIgnoreCase))
             .OrderBy(item => item.App.DisplayName, StringComparer.CurrentCultureIgnoreCase)
             .Select(item => new AppChoice(item.App.Id, item.App.DisplayName, item.App.Publisher,
-                CategoryCustomization.GetDisplayName(_draft, item.Category),
+                CategoryCustomization.GetDisplayName(_draft, item.Category), item.Category,
                 _draft.HiddenAppIds.Contains(item.App.Id) ? "Gizli" : _draft.CategoryOverrides.ContainsKey(item.App.Id) ? "Elle seçildi" : "Otomatik kategori",
-                item.App.IconCachePath, _icons))
+                item.App.IconCachePath, _icons, _selected is not null && string.Equals(item.Category, _selected.Id, StringComparison.OrdinalIgnoreCase), _selected?.Enabled == true, included =>
+                {
+                    if (_selected is null) return;
+                    CategoryCustomization.SetMembership(_draft, item.App.Id, _selected.Id, included, item.Category);
+                    RefreshCounts();
+                    UpdateSelectedCategory();
+                    RefreshApps();
+                    FeedbackText.Text = included ? $"{item.App.DisplayName} bu kategoriye eklendi." : $"{item.App.DisplayName} bu kategoriden çıkarıldı.";
+                }))
             .ToArray();
         AppsGrid.ItemsSource = rows;
         AppCountText.Text = $"{rows.Length} / {_apps.Count} uygulama";
         UpdateAppSelectionHeading();
         SelectAllButton.IsEnabled = rows.Length > 0;
+        ClearSelectionButton.IsEnabled = rows.Length > 0 && _selected?.Enabled == true;
         EmptyAppsText.Visibility = rows.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         UpdateSelectionState();
     }
 
     private void AppSelectionChanged(object sender, SelectionChangedEventArgs e) { if (_ready) UpdateSelectionState(); }
     private void TargetCategoryChanged(object sender, SelectionChangedEventArgs e) { if (_ready) UpdateSelectionState(); }
-    private void SelectAllAppsClick(object sender, RoutedEventArgs e) => AppsGrid.SelectAll();
-    private void ClearAppSelectionClick(object sender, RoutedEventArgs e) => AppsGrid.UnselectAll();
+    private void SelectAllAppsClick(object sender, RoutedEventArgs e) => SetVisibleMembership(true);
+    private void ClearAppSelectionClick(object sender, RoutedEventArgs e) => SetVisibleMembership(false);
+    private void SetVisibleMembership(bool included)
+    {
+        if (_selected?.Enabled != true) { FeedbackText.Text = "Önce etkin bir kategori seçin."; return; }
+        var rows = AppsGrid.ItemsSource?.Cast<AppChoice>().ToArray() ?? [];
+        foreach (var row in rows) CategoryCustomization.SetMembership(_draft, row.Id, _selected.Id, included, row.CurrentCategoryId);
+        RefreshCounts();
+        UpdateSelectedCategory();
+        RefreshApps();
+        FeedbackText.Text = included ? $"{rows.Length} görünen uygulama kategoriye eklendi." : $"{rows.Length} görünen uygulama kategoriden çıkarıldı.";
+    }
     private void AppRowMouseDown(object sender, MouseButtonEventArgs e)
     {
         var element = e.OriginalSource as DependencyObject;
+        var fromCheckBox = false;
         while (element is not null && element is not DataGridRow)
+        {
+            if (element is CheckBox) fromCheckBox = true;
             element = element is Visual ? VisualTreeHelper.GetParent(element) : LogicalTreeHelper.GetParent(element);
+        }
+        if (fromCheckBox) return;
         if (element is not DataGridRow row) return;
         AppsGrid.Focus();
         row.IsSelected = !row.IsSelected;
@@ -296,7 +320,7 @@ public partial class CategoryManagerWindow : Wpf.Ui.Controls.FluentWindow
         AppSelectionText.Text = count == 0 ? "Seçim yapılmadı" : $"{count} uygulama seçildi";
         MoveAppsButton.Content = Width / InterfaceMetrics.Scale < 1050 ? $"3. Taşı ({count})" : count == 0 ? "3. Seçilenleri taşı" : $"3. {count} uygulamayı taşı";
         ResetAppsButton.Content = Width / InterfaceMetrics.Scale < 1050 ? "Otomatiğe dön" : "Otomatik kategori";
-        ClearSelectionButton.IsEnabled = count > 0;
+        ClearSelectionButton.IsEnabled = AppsGrid.Items.Count > 0 && _selected?.Enabled == true;
         MoveAppsButton.IsEnabled = count > 0 && TargetCategoryBox.SelectedValue is string;
         ResetAppsButton.IsEnabled = count > 0;
     }
@@ -347,8 +371,23 @@ public partial class CategoryManagerWindow : Wpf.Ui.Controls.FluentWindow
     private void RenameKeyDown(object sender, KeyEventArgs e) { if (e.Key == Key.Enter) { RenameCategoryClick(sender, e); e.Handled = true; } }
     private void ColorKeyDown(object sender, KeyEventArgs e) { if (e.Key == Key.Enter) { ApplyColorClick(sender, e); e.Handled = true; } }
 
-    private sealed record AppChoice(string Id, string Name, string Publisher, string CategoryName, string Assignment, string IconPath, ShellIconCache Cache)
+    private sealed class AppChoice : INotifyPropertyChanged
     {
+        private readonly Action<bool> _membershipChanged;
+        private bool _isMember;
+        public AppChoice(string id, string name, string publisher, string categoryName, string currentCategoryId, string assignment, string iconPath, ShellIconCache cache, bool isMember, bool canEditMembership, Action<bool> membershipChanged)
+        { Id = id; Name = name; Publisher = publisher; CategoryName = categoryName; CurrentCategoryId = currentCategoryId; Assignment = assignment; IconPath = iconPath; Cache = cache; _isMember = isMember; CanEditMembership = canEditMembership; _membershipChanged = membershipChanged; }
+        public string Id { get; }
+        public string Name { get; }
+        public string Publisher { get; }
+        public string CategoryName { get; }
+        public string CurrentCategoryId { get; }
+        public bool CanEditMembership { get; }
+        public string Assignment { get; }
+        public string IconPath { get; }
+        public ShellIconCache Cache { get; }
+        public bool IsMember { get => _isMember; set { if (_isMember == value) return; _isMember = value; PropertyChanged?.Invoke(this, new(nameof(IsMember))); _membershipChanged(value); } }
+        public event PropertyChangedEventHandler? PropertyChanged;
         public string SelectionLabel => Name + " uygulamasını seç";
         public string Initial => string.IsNullOrWhiteSpace(Name) ? "?" : Name.Trim()[..1].ToUpperInvariant();
         public string Details => string.IsNullOrWhiteSpace(Publisher) ? Assignment : Publisher + " · " + Assignment;

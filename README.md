@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/Windows-11-0078D4?logo=windows11&logoColor=white" alt="Windows 11" />
     <img src="https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white" alt=".NET 8" />
     <img src="https://img.shields.io/badge/UI-WPF-7557D3" alt="WPF" />
-    <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><img src="https://img.shields.io/badge/Release-v1.0.0-D4B46F" alt="v1.0.0 release" /></a>
+    <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><img src="https://img.shields.io/badge/Release-v1.1.0-D4B46F" alt="v1.1.0 release" /></a>
   </p>
   <p>
     <a href="https://github.com/mustafawiped/Sheriff/releases/latest"><strong>Download for Windows</strong></a>
@@ -14,8 +14,8 @@
     &nbsp;·&nbsp;
     <a href="#privacy">Privacy</a>
   </p>
-  <img src="assets/readme/sheriff-tour.gif" width="584" alt="An animation highlighting Sheriff’s search field and category cards" />
-  <p><sub>The animation highlights the search field and category cards in sequence.</sub></p>
+  <img src="assets/readme/sheriff-screens.gif" width="700" alt="Sheriff’s home screen, a category detail window, and Settings shown in an animated sequence" />
+  <p><sub>Home → category details → Settings</sub></p>
 </div>
 
 ---
@@ -33,20 +33,24 @@ Sheriff discovers Start menu shortcuts and packaged Windows apps, organizes them
 | Feature | What it does |
 | --- | --- |
 | **Instant search** | Filter by app name, publisher, or description as you type. |
-| **Square category cards** | Find apps in tiles inspired by the Windows 11 Start experience, then launch directly from an app preview. |
+| **Square category cards** | Browse Start-inspired category tiles and open an app with one click from its preview. |
+| **Separate category windows** | Open a category in its own resizable window, search within it, and manage apps from each app’s context menu. |
+| **Category customization** | Add, rename, enable, or disable categories, choose their colors, and assign apps with direct membership checkboxes. |
+| **Automatic app filtering** | Installers, uninstallers, terminals, PowerShell, and Git tools stay off the home screen until enabled individually in Settings. |
 | **Hover to organize** | Hover over an app for 450 ms to reveal **Move** and **Remove from category** actions. Restore removed apps from Settings. |
-| **Drag and drop** | Move an app by dropping it on a category card or into a category’s detail view. |
+| **Drag and drop** | Move an app by dropping it on a category card. |
 | **Smart ranking** | Usage history and pins bring frequently used apps closer. |
 | **Windows integration** | Start menu shortcuts, Microsoft Store apps from AppsFolder, and optional launch at Windows startup. |
 | **On-demand process** | Sheriff exits when you close the panel. Its catalog and icon cache stay on disk for the next launch. |
-| **Subtle motion** | A short fade, lift, and scale animation eases the panel into view and respects Windows reduced-motion settings. |
+| **Clear, responsive motion** | Short animations support panel and category transitions and respect Windows reduced-motion settings. |
+| **Cached icons and launch data** | Sheriff loads its saved catalog first, keeps higher-resolution icons in a local cache, and updates usage data per app. |
 
 ## Quick start
 
-1. [**Download Sheriff.exe from the v1.0.0 release**](https://github.com/mustafawiped/Sheriff/releases/latest).
+1. [**Download Sheriff.exe from the latest release**](https://github.com/mustafawiped/Sheriff/releases/latest).
 2. Save the EXE in a permanent folder and run it.
 3. Type an app name or publisher in the panel. Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> while Sheriff is open to hide or show it.
-4. Select an app preview to launch it, or click the empty area of a category card to open its details.
+4. Select an app preview to launch it, or click a category card to open its separate detail window.
 
 > **Tip:** Click outside the panel or press <kbd>Esc</kbd> to close Sheriff completely. The next launch reads the saved catalog immediately. Opening a category starts a fresh scan while the panel is open; an empty cache is scanned on first launch.
 
@@ -60,8 +64,10 @@ Sheriff discovers Start menu shortcuts and packaged Windows apps, organizes them
 | Launch an app | <kbd>Enter</kbd> or click its icon |
 | Close the panel | <kbd>Esc</kbd> or click another window |
 | Move or remove an app | Hover over its icon for 450 ms, then choose an action |
-| Open a category | Click the empty area of a category card |
+| Open a category | Click its card or the overflow preview to open the separate window |
 | Categorize an app | Drag it onto a category card or use its right-click menu |
+| Customize categories | Open **Settings → Categories → Edit categories** |
+| Enable a filtered tool | Open **Settings → Automatically blocked** and select it |
 
 ## How categorization works
 
@@ -69,9 +75,14 @@ Sheriff starts with local, user-controlled rules:
 
 ~~~mermaid
 flowchart TD
-    A[App discovered] --> B{Manually assigned category?}
-    B -- Yes --> U[User-selected category]
-    B -- No --> J{Helper or uninstaller entry?}
+    A[App discovered] --> B{Automatically blocked tool?}
+    B -- Yes --> H[Hidden from home]
+    H --> E{Enabled in Settings?}
+    E -- No --> S[Settings only]
+    E -- Yes --> C{Manually assigned category?}
+    B -- No --> C
+    C -- Yes --> U[User-selected category]
+    C -- No --> J{Unwanted helper entry?}
     J -- Yes --> X[Unwanted]
     J -- No --> K{Known app rule?}
     K -- Yes --> C[Known category]
@@ -84,6 +95,8 @@ flowchart TD
 ~~~
 
 - A manually assigned category takes precedence over automatic classification.
+- Installer and uninstaller entries, command shells, terminals, PowerShell, and Git utilities are hidden by default; each can be enabled in Settings.
+- The category editor manages app membership, category names, visibility, and colors in one place.
 - The app catalog contains 384 known-app rules. EXE and AUMID matches are checked before publisher rules.
 - **Unwanted** keeps helper entries separate. It has no app preview on the home screen, and its items are collapsed by default in the detail view.
 - Usage scores decay with a 30-day half-life; pinning adds a lasting ranking bonus.
@@ -96,7 +109,7 @@ Optional LLM classification is **off by default**. If you enable it in Settings 
 
 | Local data | Contents |
 | --- | --- |
-| <code>config.json</code> | Categories, category preferences, pins, hidden apps, and settings |
+| <code>config.json</code> | Custom categories, app assignments, colors, pins, hidden apps, blocked-tool choices, and settings |
 | <code>apps.json</code> | Cache from the most recent app scan |
 | <code>icons/</code> | Icons extracted from the Windows Shell |
 | <code>usage.db</code> | Launch history and ranking data from Sheriff |
@@ -122,7 +135,7 @@ flowchart LR
 - **Sheriff.Data:** Atomic JSON storage, DPAPI-protected API key, and SQLite usage data.
 - **Sheriff.Tests:** xUnit tests.
 
-The catalog loads from disk before the panel appears. With a populated cache, Sheriff waits until you open a category before scanning for newly installed apps; on a first launch with no cache, it starts scanning immediately. Every app in a category is listed from the catalog, and icons load as their tiles are shown. Closing the panel ends the process, so Sheriff uses no idle background memory. Launching a second Sheriff instance toggles the open panel instead of opening another window.
+The catalog loads from disk before the panel appears. With a populated cache, Sheriff waits until you open a category before scanning for newly installed apps; on a first launch with no cache, it starts scanning immediately. Category details open in a separate virtualized window, and search refreshes after typing pauses. Icons load from the local cache as their tiles appear. Closing the panel ends the process, so Sheriff uses no idle background memory. Launching a second Sheriff instance toggles the open panel instead of opening another window.
 
 ## Development
 
@@ -149,9 +162,7 @@ The output is <code>artifacts\publish\win-x64\Sheriff.exe</code>; end users do n
 ## Validation
 
 - Release build: 0 warnings, 0 errors.
-- xUnit: **113 tests passed**.
-- <code>--ui-smoke</code> verifies the category overview and detail view, hover actions, preview launch event, and removal record with synthetic apps.
-- The performance log records <code>SHOW_RETURN</code> and the first WPF <code>CompositionTarget.Rendering</code> callback as <code>SHOW_RENDER</code>. <code>SHOW_RENDER</code> does not measure physical presentation on screen. The 50 ms target was not remeasured after the last UI changes, so this README does not claim that the target is met.
+- <code>--ui-smoke</code> passes the category overview and separate detail window, hover actions, preview launch, category editor, and saved configuration checks.
 
 ## License
 

@@ -35,6 +35,8 @@ public sealed class SheriffConfig
     public Dictionary<string, string> CategoryOverrides { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public HashSet<string> PinnedAppIds { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public HashSet<string> HiddenAppIds { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    // Apps matching Sheriff safety rules stay out of the launcher until explicitly enabled here.
+    public HashSet<string> AllowedAutoBlockedAppIds { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public string Hotkey { get; set; } = "Ctrl+Alt+Space";
     public bool StartWithWindows { get; set; }
     public bool LlmEnabled { get; set; }
